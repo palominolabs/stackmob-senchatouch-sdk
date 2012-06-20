@@ -40,7 +40,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
      */
     getHeaders: function() {
         var me = this;
-        return Ext.applyIf(me._headers || {}, me.getStandardHeaders());
+        return Ext.applyIf(me._headers || {}, me._getStandardHeaders());
     },
 
     /**
@@ -75,6 +75,36 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     },
 
     /**
+     * Specialized version of doRequest with operation-specific headers
+     * @protected
+     */
+    doRequest: function(operation, callback, scope) {
+        var me = this,
+            writer  = me.getWriter(),
+            request = me.buildRequest(operation),
+            headers = Ext.applyIf(me.getHeaders(), me._getAdditionalHeaders(operation));
+
+        request.setConfig({
+            headers        : headers,
+            timeout        : me.getTimeout(),
+            method         : me.getMethod(request),
+            callback       : me.createRequestCallback(request, operation, callback, scope),
+            scope          : me
+        });
+
+        if (operation.getWithCredentials() || me.getWithCredentials()) {
+            request.setWithCredentials(true);
+        }
+
+        // We now always have the writer prepare the request
+        request = writer.write(request);
+
+        Ext.Ajax.request(request.getCurrentConfig());
+
+        return request;
+    },
+
+    /**
      * Specialized version of buildUrl which returns the appropriate StackMob API URL
      * @param {Ext.data.Request} request The request object
      * @return {String} The URL
@@ -89,14 +119,36 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
      * REST API using OAuth 2.0
      * @return {Object} Headers
      */
-    getStandardHeaders: function() {
+    _getStandardHeaders: function() {
         var me = this;
+
         return {
             'Accept': ['application/vnd.stackmob+json; version=', me.conn.getApiVersion()].join(""),
             'X-StackMob-API-Key': me.conn.getPublicKey(),
             'X-StackMob-Proxy-Plain': 'stackmob-api',
             'X-StackMob-User-Agent': ['StackMob (', me.conn.getSdkName(),'; ', me.conn.getSdkVersion(), ')/', me.conn.getAppName()].join("")
         };
+    },
+
+    /**
+     * Assembles an object containing additional headers, such as paging
+     * @param {Ext.data.Operation} operation The operation
+     * @return {Object} Headers
+     * @private
+     */
+    _getAdditionalHeaders: function(operation) {
+        var me = this,
+            headers = {},
+            start = operation.getStart(),
+            limit = operation.getLimit(),
+            end;
+
+        if (me.getEnablePagingParams() && (start !== null) && (limit !== null)) {
+            end = start + limit - 1;
+            headers['Range'] = ['objects=', start, '-', end].join("");
+        }
+
+        return headers;
     }
 
 });
