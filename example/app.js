@@ -2,8 +2,9 @@
 Ext.Loader.setConfig({
     enabled: true,
     paths: {
-        'Ext': 'sdk/src',
-        'Ux.palominolabs.stackmob': '../src'
+        'Ext': '/example/sdk/src',
+        'StackMobSenchaTouchDemo': '/example/app',
+        'Ux.palominolabs.stackmob': '/src'
     }
 });
 //</debug>

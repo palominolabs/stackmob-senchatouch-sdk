@@ -19,10 +19,10 @@
      */
     "js": [
         {
-            "path": "sdk/sencha-touch.js"
+            "path": "example/sdk/sencha-touch.js"
         },
         {
-            "path": "app.js",
+            "path": "example/app.js",
             "update": "delta"
         }
     ],
@@ -42,7 +42,7 @@
      */
     "css": [
         {
-            "path": "resources/css/app.css",
+            "path": "example/resources/css/app.css",
             "update": "delta"
         }
     ],
