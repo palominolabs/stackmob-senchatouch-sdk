@@ -70,6 +70,9 @@ Also keep in mind that you must enable OAuth 2.0 for your StackMob application t
 Future Enhancements & Known Issues
 ----------------------------------
 
+For the complete list (or to report a bug or request a feature), check out the
+[issue tracker](https://github.com/tylerwolf/stackmob-senchatouch-sdk/issues), but the broad strokes are as follows:
+
 - Paging/sorting/filtering are coming soon.
 - Support for associations is coming coon.
 - Autoloading stores (i.e. setting `autoLoad: true`) does not work.  The request to StackMob will fail.  For now,
