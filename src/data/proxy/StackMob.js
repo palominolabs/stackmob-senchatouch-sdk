@@ -26,12 +26,8 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     conn: Ux.palominolabs.stackmob.data.StackMobConnector,
 
     config: {
-        // Disable cache busting / paging for now, since StackMob rejects the GET params added by ServerProxy.
-        // TODO: re-implement these in a StackMob-compliant manner (request headers)
-        noCache: false,
-        pageParam: false,
-        startParam: false,
-        limitParam: false
+        // Disable cache busting, since StackMob rejects the GET params added by ServerProxy.
+        noCache: false
     },
 
     /**
@@ -41,6 +37,14 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     getHeaders: function() {
         var me = this;
         return Ext.applyIf(me._headers || {}, me._getStandardHeaders());
+    },
+
+    /**
+     * Specialized version of getParams which returns an empty object
+     * @private
+     */
+    getParams: function(operation) {
+        return {};
     },
 
     /**
