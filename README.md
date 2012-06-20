@@ -10,27 +10,32 @@ Installation
 
 1. Place the extension in your codebase (might we suggest `ux/stackmob-senchatouch`).
 1. Tell `Ext.Loader` (in `app.js`) where to find the extension's namespace:
-```javascript
-Ext.Loader.setConfig({
-    enabled: true,
-    paths: {
-        'Ext': 'sdk/src',
-        'Ux.palominolabs.stackmob': 'ux/stackmob-senchatouch'
-    }
-});
-```
+
+    ```javascript
+    Ext.Loader.setConfig({
+        enabled: true,
+        paths: {
+            'Ext': 'sdk/src',
+            'Ux.palominolabs.stackmob': 'ux/stackmob-senchatouch'
+        }
+    });
+    ```
+
 1. Require the extension loader in your `Ext.Application`:
-```javascript
-requires: ['Ux.palominolabs.stackmob.Loader'];
-```
+
+    ```javascript
+    requires: ['Ux.palominolabs.stackmob.Loader'];
+    ```
+
 1. Supply your StackMob connection information (your `Ext.Application`'s `launch` function is a good place to do so):
-```javascript
-Ux.palominolabs.stackmob.data.StackMobConnector.init({
-    appName: '<YOUR APP NAME>',
-    clientSubdomain: '<YOUR CLIENT SUBDOMAIN>',
-    publicKey: '<YOUR PUBLIC KEY>'
-});
-```
+
+    ```javascript
+    Ux.palominolabs.stackmob.data.StackMobConnector.init({
+        appName: '<YOUR APP NAME>',
+        clientSubdomain: '<YOUR CLIENT SUBDOMAIN>',
+        publicKey: '<YOUR PUBLIC KEY>'
+    });
+    ```
 
 Usage
 -----
