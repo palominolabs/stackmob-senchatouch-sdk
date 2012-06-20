@@ -8,7 +8,7 @@ much a beta.
 Installation
 -----
 
-1. Place the extension in your codebase (might we suggest as `ux/stackmob-senchatouch`).
+1. Place the extension in your codebase (might we suggest `ux/stackmob-senchatouch`).
 1. Tell `Ext.Loader` (in `app.js`) where to find the extension's namespace:
 ```javascript
 Ext.Loader.setConfig({
@@ -60,6 +60,8 @@ Sencha Touch app, you need to either [use StackMob's Local Runner](https://www.s
 (in a development environment) or [host your Sencha Touch app on StackMob](http://www.stackmob.com/devcenter/docs/Deploying-your-HTML5-App-to-Production)
 (for production).
 
+Also keep in mind that you must enable OAuth 2.0 for your StackMob application to use this extension.
+
 Future Enhancements & Known Issues
 ----------------------------------
 
@@ -76,7 +78,7 @@ Okay... So What Does It Actually Do?
 ------------------------------------
 
 The SDK currently supports using `Ext.Store`s to make basic, unauthenticate CRUD requests to an
-OAuth 2.0-enabled StackMob app.  More to come...
+OAuth 2.0-enabled StackMob app.  From humble beginnings come great things.
 
 Contributing
 ------------
