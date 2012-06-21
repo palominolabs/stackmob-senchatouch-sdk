@@ -11,7 +11,7 @@ Ext.define("StackMobSenchaTouchDemo.view.Details", {
             styleHtmlContent: true
         },{
             xtype: 'button',
-            id: 'deleteButton',
+            action: 'deleteDessert',
             text: 'Delete',
             ui: 'decline',
             docked: 'bottom',

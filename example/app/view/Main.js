@@ -14,13 +14,13 @@ Ext.define("StackMobSenchaTouchDemo.view.Main", {
         navigationBar: {
             items: [{
                 xtype: 'button',
-                id: 'addButton',
+                action: 'addDessert',
                 iconCls: 'add',
                 iconMask: true,
                 align: 'right'
             },{
                 xtype: 'button',
-                id: 'editButton',
+                action: 'editDessert',
                 iconCls: 'compose',
                 iconMask: true,
                 align: 'right',

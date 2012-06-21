@@ -7,9 +7,9 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
         refs: {
             dessertList: '#dessertList',
             mainView: '#mainView',
-            addButton: '#addButton',
-            editButton: '#editButton',
-            deleteButton: '#deleteButton',
+            addButton: 'button[action=addDessert]',
+            editButton: 'button[action=editDessert]',
+            deleteButton: 'button[action=deleteDessert]',
             detailsView: '#detailsView'
         },
         control: {
