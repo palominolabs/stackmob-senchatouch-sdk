@@ -9,6 +9,23 @@ Ext.define("StackMobSenchaTouchDemo.view.Main", {
 
         items: [{
             xclass: 'StackMobSenchaTouchDemo.view.List'
-        }]
+        }],
+
+        navigationBar: {
+            items: [{
+                xtype: 'button',
+                id: 'addButton',
+                iconCls: 'add',
+                iconMask: true,
+                align: 'right'
+            },{
+                xtype: 'button',
+                id: 'editButton',
+                iconCls: 'compose',
+                iconMask: true,
+                align: 'right',
+                hidden: true
+            }]
+        }
     }
 });
