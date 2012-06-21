@@ -1,6 +1,9 @@
 HEAD
 ====
 
+v0.2 - 2012/06/21
+=================
+
 - [#1] Added support for paging.
 - [#2] Added support for sorting.
 

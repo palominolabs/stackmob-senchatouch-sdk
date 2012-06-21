@@ -30,7 +30,7 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     DEFAULT_API_VERSION: 0,
 
     SDK_NAME: "Sencha Touch",
-    SDK_VERSION: "0.1",
+    SDK_VERSION: "0.2",
 
     /**
      * Initializes the connection information required to communicate with StackMob.
