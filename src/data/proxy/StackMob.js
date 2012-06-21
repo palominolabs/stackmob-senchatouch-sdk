@@ -86,7 +86,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         var me = this,
             writer  = me.getWriter(),
             request = me.buildRequest(operation),
-            headers = Ext.applyIf(me.getHeaders(), me._getAdditionalHeaders(operation));
+            headers = Ext.applyIf(Ext.applyIf({}, me.getHeaders()), me._getAdditionalHeaders(operation));
 
         request.setConfig({
             headers        : headers,
@@ -119,6 +119,23 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     },
 
     /**
+     * Specialized version of encodeSorters which assembles the sorters into StackMob's desired format
+     * @param {Ext.util.Sorter[]} sorters The array of {@link Ext.util.Sorter Sorter} objects
+     * @return {String} The encoded sorters
+     */
+    encodeSorters: function(sorters) {
+        var min = [],
+            length = sorters.length,
+            i = 0;
+
+        for (; i < length; i++) {
+            min[i] = [sorters[i].getProperty(), sorters[i].getDirection()].join(":");
+        }
+        return min.join(",");
+
+    },
+
+    /**
      * Assembles an object containing the standard headers required for communication with StackMob's
      * REST API using OAuth 2.0
      * @return {Object} Headers
@@ -145,11 +162,16 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
             headers = {},
             start = operation.getStart(),
             limit = operation.getLimit(),
+            sorters = operation.getSorters(),
             end;
 
         if (me.getEnablePagingParams() && (start !== null) && (limit !== null)) {
             end = start + limit - 1;
             headers['Range'] = ['objects=', start, '-', end].join("");
+        }
+
+        if (sorters && sorters.length > 0) {
+            headers['X-StackMob-OrderBy'] = me.encodeSorters(sorters);
         }
 
         return headers;

@@ -10,6 +10,8 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
             addButton: 'button[action=addDessert]',
             editButton: 'button[action=editDessert]',
             deleteButton: 'button[action=deleteDessert]',
+            sortButton: 'button[action=sortButton]',
+            sortPicker: 'picker[action=sort]',
             detailsView: '#detailsView'
         },
         control: {
@@ -29,6 +31,12 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
             },
             deleteButton: {
                 tap: 'onDeleteButtonTap'
+            },
+            sortButton: {
+                tap: 'onSortButtonTap'
+            },
+            sortPicker: {
+                change: 'onSortPickerChange'
             }
         }
     },
@@ -85,6 +93,35 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
                 debugger;
             }
         }, this);
+    },
+
+    onSortButtonTap: function(btn, event, opts) {
+        if (!this.sortPicker) {
+            this.sortPicker = Ext.Viewport.add({
+                xtype: 'picker',
+                action: 'sort',
+                slots: [{
+                    name : 'sortDir',
+                    title: 'Direction',
+                    data : [
+                        {text: 'Ascending', value: 'asc'},
+                        {text: 'Descending', value: 'desc'}
+                    ]
+                }],
+                value: 'asc'
+            });
+        }
+
+        this.sortPicker.show();
+    },
+
+    onSortPickerChange: function(picker, value, opts) {
+        var store = this.getDessertList().getStore();
+        store.setSorters({
+            property: 'name',
+            direction: value.sortDir
+        });
+        store.load();
     },
 
     onSubmitNewDessert: function(btnId, value) {

@@ -7,6 +7,19 @@ Ext.define('StackMobSenchaTouchDemo.view.List', {
         title: 'Desserts',
 
         store: 'Desserts',
-        itemTpl: '{name}'
+        itemTpl: '{name}',
+
+        items: [{
+            xtype: 'toolbar',
+            docked: 'bottom',
+
+            items: [{
+                xtype: 'spacer'
+            },{
+                xtype: 'button',
+                action: 'sortButton',
+                text: 'Sort'
+            }]
+        }]
     }
 });

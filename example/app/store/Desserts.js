@@ -3,10 +3,10 @@ Ext.define('StackMobSenchaTouchDemo.store.Desserts', {
 
     config: {
         model: 'StackMobSenchaTouchDemo.model.Dessert',
-        sorters: 'name',
         proxy: {
             type: 'stackmob',
             url: 'dessert'
-        }
+        },
+        remoteSort: true
     }
 });
