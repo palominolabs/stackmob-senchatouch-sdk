@@ -21,7 +21,7 @@
  */
 Ext.define("Ux.palominolabs.stackmob.Loader", {
     requires: [
-        "Ux.palominolabs.stackmob.data.StackMobConnector",
+        "Ux.palominolabs.stackmob.data.StackMobConnector", // Must require the connector first
         "Ux.palominolabs.stackmob.StackMobAjax",
         "Ux.palominolabs.stackmob.data.proxy.StackMob"
     ]
