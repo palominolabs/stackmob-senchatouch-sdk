@@ -79,13 +79,11 @@ For the complete list (or to report a bug or request a feature), check out the
  you can work around this issue by manually calling `load()` on your store when the list is displayed.
 - Currently only operations which are "open" (that is, only requiring a public key) are supported.  Support
 for authenticated operations (those requiring a private key) is coming soon.
-- Manual AJAX request (as opposed to through an `Ext.Store`) support is coming soon.  This will primarily
-be useful for Custom Code endpoints.
 
 Okay... So What Does It Actually Do?
 ------------------------------------
 
-The SDK currently supports using `Ext.Store`s to make basic, unauthenticate CRUD requests to an
+The SDK currently supports using `Ext.Store`s to make basic, unauthenticated CRUD and AJAX requests to an
 OAuth 2.0-enabled StackMob app.  From humble beginnings come great things.
 
 Contributing

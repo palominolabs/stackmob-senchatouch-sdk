@@ -1,6 +1,8 @@
 HEAD
 ====
 
+- [#8] Added support for manual AJAX requests.
+
 v0.2 - 2012/06/21
 =================
 
