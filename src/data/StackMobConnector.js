@@ -116,6 +116,22 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
+     * Assembles an object containing the required headers required for communication with StackMob's
+     * REST API using OAuth 2.0
+     * @return {Object} Headers
+     */
+    getRequiredHeaders: function() {
+        var me = this;
+
+        return {
+            'Accept': ['application/vnd.stackmob+json; version=', me.getApiVersion()].join(""),
+            'X-StackMob-API-Key': me.getPublicKey(),
+            'X-StackMob-Proxy-Plain': 'stackmob-api',
+            'X-StackMob-User-Agent': ['StackMob (', me.getSdkName(),'; ', me.getSdkVersion(), ')/', me.getAppName()].join("")
+        };
+    },
+
+    /**
      * Iterates over the keys in the supplied object and asserts that all required keys are present
      * @param {Object} options The options passed to init
      * @private

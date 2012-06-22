@@ -36,7 +36,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
      */
     getHeaders: function() {
         var me = this;
-        return Ext.applyIf(me._headers || {}, me._getStandardHeaders());
+        return Ext.applyIf(me._headers || {}, me.conn.getRequiredHeaders());
     },
 
     /**
@@ -133,22 +133,6 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         }
         return min.join(",");
 
-    },
-
-    /**
-     * Assembles an object containing the standard headers required for communication with StackMob's
-     * REST API using OAuth 2.0
-     * @return {Object} Headers
-     */
-    _getStandardHeaders: function() {
-        var me = this;
-
-        return {
-            'Accept': ['application/vnd.stackmob+json; version=', me.conn.getApiVersion()].join(""),
-            'X-StackMob-API-Key': me.conn.getPublicKey(),
-            'X-StackMob-Proxy-Plain': 'stackmob-api',
-            'X-StackMob-User-Agent': ['StackMob (', me.conn.getSdkName(),'; ', me.conn.getSdkVersion(), ')/', me.conn.getAppName()].join("")
-        };
     },
 
     /**
