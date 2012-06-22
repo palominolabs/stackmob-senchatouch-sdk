@@ -37,5 +37,16 @@ Ext.define("Ux.palominolabs.stackmob.StackMobAjax", {
     getDefaultHeaders: function() {
         var me = this;
         return Ext.applyIf(me.callParent(arguments) || {}, me.conn.getRequiredHeaders());
+    },
+
+    /**
+     * Specialized version of setupUrl to prepend the StackMob URL root
+     * @param {Object} options
+     * @param {String} url
+     * @return {String} The modified url
+     */
+    setupUrl: function(options, url) {
+        var me = this;
+        return [me.conn.getUrlRoot(), me.callParent(arguments)].join('');
     }
 });
