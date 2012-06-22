@@ -73,7 +73,7 @@ Future Enhancements & Known Issues
 For the complete list (or to report a bug or request a feature), check out the
 [issue tracker](https://github.com/tylerwolf/stackmob-senchatouch-sdk/issues), but the broad strokes are as follows:
 
-- Sorting/filtering are coming soon.
+- Filtering is coming soon.
 - Support for associations is coming coon.
 - Autoloading stores (i.e. setting `autoLoad: true`) does not work.  The request to StackMob will fail.  For now,
  you can work around this issue by manually calling `load()` on your store when the list is displayed.
