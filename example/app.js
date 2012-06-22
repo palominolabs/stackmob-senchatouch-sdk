@@ -18,7 +18,7 @@ Ext.application({
     ],
 
     models: ['Dessert'],
-    views: ['Main'],
+    views: ['Tabs'],
     controllers: ['Desserts'],
     stores: ['Desserts'],
 
@@ -33,8 +33,8 @@ Ext.application({
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
-        // Initialize the main view
-        Ext.Viewport.add(Ext.create('StackMobSenchaTouchDemo.view.Main'));
+        // Initialize the tab view
+        Ext.Viewport.add(Ext.create('StackMobSenchaTouchDemo.view.Tabs'));
     },
 
     onUpdated: function() {

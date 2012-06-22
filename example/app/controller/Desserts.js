@@ -1,12 +1,12 @@
 Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
     extend: "Ext.app.Controller",
 
-    requires: ['StackMobSenchaTouchDemo.view.Details'],
+    requires: ['StackMobSenchaTouchDemo.view.dessert.Details'],
 
     config: {
         refs: {
             dessertList: '#dessertList',
-            mainView: '#mainView',
+            mainView: '#dessertMainView',
             addButton: 'button[action=addDessert]',
             editButton: 'button[action=editDessert]',
             deleteButton: 'button[action=deleteDessert]',
@@ -46,7 +46,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
     },
 
     onDessertSelect: function(list, index, node, record) {
-        var showDessert = Ext.create("StackMobSenchaTouchDemo.view.Details");
+        var showDessert = Ext.create("StackMobSenchaTouchDemo.view.dessert.Details");
 
         this.selectedDessert = record;
 

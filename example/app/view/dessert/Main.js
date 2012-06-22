@@ -1,14 +1,17 @@
-Ext.define("StackMobSenchaTouchDemo.view.Main", {
+Ext.define("StackMobSenchaTouchDemo.view.dessert.Main", {
     extend: 'Ext.navigation.View',
 
-    requires: ['StackMobSenchaTouchDemo.view.List'],
+    requires: ['StackMobSenchaTouchDemo.view.dessert.List'],
 
-    id: 'mainView',
+    id: 'dessertMainView',
 
     config: {
 
+        title: 'Desserts',
+        iconCls: 'piechart',
+
         items: [{
-            xclass: 'StackMobSenchaTouchDemo.view.List'
+            xclass: 'StackMobSenchaTouchDemo.view.dessert.List'
         }],
 
         navigationBar: {

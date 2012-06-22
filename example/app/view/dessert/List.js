@@ -1,4 +1,4 @@
-Ext.define('StackMobSenchaTouchDemo.view.List', {
+Ext.define('StackMobSenchaTouchDemo.view.dessert.List', {
     extend: 'Ext.List',
 
     id: 'dessertList',

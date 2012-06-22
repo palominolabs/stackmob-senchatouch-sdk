@@ -1,4 +1,4 @@
-Ext.define("StackMobSenchaTouchDemo.view.Details", {
+Ext.define("StackMobSenchaTouchDemo.view.dessert.Details", {
     extend: "Ext.Container",
 
     config: {
