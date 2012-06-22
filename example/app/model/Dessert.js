@@ -6,6 +6,10 @@ Ext.define('StackMobSenchaTouchDemo.model.Dessert', {
         fields: [
             {name: 'dessert_id', type: 'auto', persist: false},
             'name'
-        ]
+        ],
+        proxy: {
+            type: 'stackmob',
+            url: 'dessert'
+        }
     }
 });
