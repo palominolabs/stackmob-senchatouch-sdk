@@ -29,8 +29,15 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
     DEFAULT_API_VERSION: 0,
 
+    DEFAULT_LOGIN_SCHEMA: 'user',
+    DEFAULT_LOGIN_FIELD: 'username',
+    DEFAULT_PASSWORD_FIELD: 'password',
+
     SDK_NAME: "Sencha Touch",
     SDK_VERSION: "0.2",
+
+    TOKEN_TYPE_MAC: 'mac',
+    TOKEN_TYPE_BEARER: 'bearer',
 
     /**
      * Initializes the connection information required to communicate with StackMob.
@@ -40,10 +47,15 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * @param {String} options.publicKey The public key to use to sign OAuth 2.0 requests.
      * @param {String} options.apiUrl (optional) API URL to use.
      * @param {Number} options.apiVersion (optional) The StackMob API version.  Defaults to 0 (development).
+     * @param {String} options.loginSchema (optional) The name of the StackMob schema with which to log in
+     * @param {String} options.loginField (optional) The name of the login field for the loginSchema
+     * @param {String} options.passwordField (optional) The name of the password field for the loginSchema
      * @return {Ux.palominolabs.stackmob.data.StackMobConnector} this
      */
     init: function(options) {
         var me = this;
+
+        me._injectCryptoLibrary();
 
         options = options || {};
 
@@ -64,7 +76,31 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
             me.urlRoot = options.urlRoot || me._getProdApiBase();
         }
 
+        me.loginSchema = options.loginSchema || me.DEFAULT_LOGIN_SCHEMA;
+        me.loginField = options.loginField || me.DEFAULT_LOGIN_FIELD;
+        me.passwordField = options.passwordField || me.DEFAULT_PASSWORD_FIELD;
+
+        me.secure = (options.secure === true);
+        me.tokenType = (me.secure) ? me.TOKEN_TYPE_BEARER : me.TOKEN_TYPE_MAC;
+
         return this;
+    },
+
+    /**
+     * Whether or not a user has been authenticated with StackMob
+     * @return {Boolean} True iff there is a logged in user
+     */
+    isAuthenticated: function() {
+        var me = this;
+        return me.accessToken && me.macKey && ((new Date()).getTime() <= me.accessTokenExpiration);
+    },
+
+    /**
+     * The data returned from StackMob as the authenticated user after login
+     * @return {Object} The authenticated user data
+     */
+    getAuthenticatedUserData: function() {
+        return this.authenticatedAs;
     },
 
     /**
@@ -115,20 +151,50 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
         return this.urlRoot;
     },
 
+    getLoginSchema: function() {
+        return this.loginSchema;
+    },
+
+    getTokenType: function() {
+        return this.tokenType;
+    },
+
     /**
      * Assembles an object containing the required headers required for communication with StackMob's
      * REST API using OAuth 2.0
+     * @param {String} method The HTTP method verb
+     * @param {String} relativeUrl The relative URL for this request
      * @return {Object} Headers
      */
-    getRequiredHeaders: function() {
-        var me = this;
+    getRequiredHeaders: function(method, relativeUrl) {
+        var me = this,
+            headers = {
+                'Accept': ['application/vnd.stackmob+json; version=', me.getApiVersion()].join(""),
+                'X-StackMob-API-Key': me.getPublicKey(),
+                'X-StackMob-Proxy-Plain': 'stackmob-api',
+                'X-StackMob-User-Agent': ['StackMob (', me.getSdkName(),'; ', me.getSdkVersion(), ')/', me.getAppName()].join("")
+            };
+        if (me.isAuthenticated() && method && relativeUrl) {
+            headers['Authorization'] = me._generateMAC(method, me.accessToken, me.macKey, me.getUrlRoot(), relativeUrl);
+        }
+        return headers;
+    },
 
-        return {
-            'Accept': ['application/vnd.stackmob+json; version=', me.getApiVersion()].join(""),
-            'X-StackMob-API-Key': me.getPublicKey(),
-            'X-StackMob-Proxy-Plain': 'stackmob-api',
-            'X-StackMob-User-Agent': ['StackMob (', me.getSdkName(),'; ', me.getSdkVersion(), ')/', me.getAppName()].join("")
-        };
+    /**
+     * Handles the response from StackMob for a login call.
+     * @param {Object} response The response from StackMob
+     * @private
+     */
+    _handleAuthentication: function(response) {
+        var me = this;
+        if (response.access_token && response.token_type && (response.token_type == me.TOKEN_TYPE_MAC || response.token_type == me.TOKEN_TYPE_BEARER)) {
+            me.authenticatedAs = response.stackmob[me.loginSchema];
+            me.accessToken = response.access_token;
+            me.accessTokenExpiration = (new Date()).getTime() + (response.expires_in * 1000);
+            if (response.token_type == me.TOKEN_TYPE_MAC) {
+                me.macKey = response.mac_key;
+            }
+        }
     },
 
     /**
@@ -167,12 +233,12 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
-     * Returns the scheme to use when connectinf with StackMob
+     * Returns the scheme to use when connecting with StackMob
      * @return {String} Scheme
      * @private
      */
     _getScheme : function() {
-        return 'https';
+        return (this.secure) ? 'https' : 'http';
     },
 
     /**
@@ -202,5 +268,47 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      */
     _isDevelopmentMode: function() {
         return (this.apiVersion === 0);
+    },
+
+    /**
+     * Injects the Google Crypto library.
+     * @return {Element} The script element
+     * @private
+     */
+    _injectCryptoLibrary: function() {
+        var script = document.createElement('script'),
+            documentHead = typeof document != 'undefined' && (document.head || document.getElementsByTagName('head')[0]);
+        script.type = 'text/javascript';
+        script.src = 'https://s3.amazonaws.com/static.stackmob.com/js/2.5.3-crypto-sha1-hmac.js';
+        documentHead.appendChild(script);
+        return script;
+    },
+
+    _createBaseString: function(ts, nonce, method, uri, host, port) {
+        var nl = '\u000A';
+        return ts + nl + nonce + nl + method + nl + uri + nl + host + nl + port + nl + nl;
+    },
+
+    _bin2String: function(array) {
+        var result = "";
+        for ( var i = 0; i < array.length; i++) {
+            result += String.fromCharCode(array[i]);
+        }
+        return result;
+    },
+
+    _generateMAC: function(method, accessToken, macKey, hostWithPort, relativeUrl) {
+        var me = this,
+            splitHost = hostWithPort.split(':'),
+            hostNoPort = splitHost.length > 1 ? splitHost[0] : hostWithPort,
+            port = splitHost.length > 1 ? splitHost[1] : 80,
+            ts = Math.round(new Date().getTime() / 1000),
+            nonce = "n" + Math.round(Math.random() * 10000),
+            base = me._createBaseString(ts, nonce, method, relativeUrl, hostNoPort, port),
+            bstring = me._bin2String(Crypto.HMAC(Crypto.SHA1, base, macKey, {
+                asBytes : true
+            })),
+            mac = btoa(bstring);
+        return 'MAC id="' + accessToken + '",ts="' + ts + '",nonce="' + nonce + '",mac="' + mac + '"';
     }
 });

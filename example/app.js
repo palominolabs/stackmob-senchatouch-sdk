@@ -19,7 +19,7 @@ Ext.application({
 
     models: ['Dessert'],
     views: ['Tabs'],
-    controllers: ['Desserts'],
+    controllers: ['Account', 'Desserts'],
     stores: ['Desserts'],
 
     launch: function() {

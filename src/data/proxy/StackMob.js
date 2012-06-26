@@ -34,9 +34,9 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
      * Specialized version of getHeaders which merges in the required OAuth 2.0 headers for StackMob
      * @return {Object} Headers
      */
-    getHeaders: function() {
+    getHeaders: function(method, relativeUrl) {
         var me = this;
-        return Ext.applyIf(me._headers || {}, me.conn.getRequiredHeaders());
+        return Ext.applyIf(me._headers || {}, me.conn.getRequiredHeaders(method, relativeUrl));
     },
 
     /**
@@ -55,43 +55,49 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     buildRequest: function(operation) {
         var me = this,
             params = Ext.applyIf(operation.getParams() || {}, me.getExtraParams() || {}),
-            headers = me.getHeaders(),
+            url = operation.getUrl(),
+            relativeUrl = me._extractRelativeUrl(url),
+            headers,
             request;
 
-        //copy any sorters, filters etc into the params so they can be sent over the wire
-        // TODO: undo this and re-implement in a StackMob-compliant manner (request headers)
         params = Ext.applyIf(params, me.getParams(operation));
 
         request = Ext.create('Ext.data.Request', {
-            headers  : headers,
             params   : params,
             action   : operation.getAction(),
             records  : operation.getRecords(),
-            url      : operation.getUrl(),
+            url      : url,
             operation: operation,
             proxy    : me
         });
 
         request.setUrl(me.buildUrl(request));
+
+        // Construct the headers after the request and apply them, since we need request data
+        // ... to be able to determine which headers to use.
+        headers = me.getHeaders(me.getMethod(request), relativeUrl);
+        request.setHeaders(headers);
+
         operation.setRequest(request);
 
         return request;
     },
 
     /**
-     * Specialized version of doRequest with operation-specific headers
+     * Specialized version of doRequest with operation-specific and request-specific headers
      * @protected
      */
     doRequest: function(operation, callback, scope) {
         var me = this,
             writer  = me.getWriter(),
             request = me.buildRequest(operation),
-            headers = Ext.applyIf(Ext.applyIf({}, me.getHeaders()), me._getAdditionalHeaders(operation));
+            method = me.getMethod(request),
+            url = me.getUrl(request),
+            relativeUrl = me._extractRelativeUrl(url);
 
         request.setConfig({
-            headers        : headers,
             timeout        : me.getTimeout(),
-            method         : me.getMethod(request),
+            method         : method,
             callback       : me.createRequestCallback(request, operation, callback, scope),
             scope          : me
         });
@@ -99,6 +105,10 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         if (operation.getWithCredentials() || me.getWithCredentials()) {
             request.setWithCredentials(true);
         }
+
+        // Construct the headers after the request and apply them, since we need request data
+        // ... to be able to determine which headers to use.
+        request.setHeaders(Ext.applyIf(Ext.applyIf({}, me.getHeaders(method, relativeUrl)), me._getAdditionalHeaders(operation)));
 
         // We now always have the writer prepare the request
         request = writer.write(request);
@@ -159,6 +169,19 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         }
 
         return headers;
+    },
+
+    /**
+     * Extracts the relative portion of the given StackMob API URL
+     * @param {String} url The full URL
+     * @return {String} THe relative portion of the URL
+     * @private
+     */
+    _extractRelativeUrl: function(url) {
+        if (url) {
+            var regex = new RegExp(Ext.String.escapeRegex("^", + this.conn.getUrlRoot()));
+            return url.replace(regex, "");
+        }
     }
 
 });

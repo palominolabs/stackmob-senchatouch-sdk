@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+/**
+ * A singleton for making AJAX requests to StackMob.  Automatically adds the required
+ * headers, and constructs the full URL.
+ *
+ * @author Tyler Wolf
+ */
 Ext.define("Ux.palominolabs.stackmob.StackMobAjax", {
     extend: "Ext.data.Connection",
     singleton: true,
@@ -31,12 +37,20 @@ Ext.define("Ux.palominolabs.stackmob.StackMobAjax", {
     autoAbort : false,
 
     /**
-     * Specialized version of getDefaultHeaders which merges in the required StackMob headers
+     * Specialized version of setupHeaders which adds the required StackMob headers.
+     * @param {Object} xhr The xhr object
+     * @param {Object} options The options
+     * @param {Object} data The data
+     * @param {Object} params The params
      * @return {Object} Headers
      */
-    getDefaultHeaders: function() {
-        var me = this;
-        return Ext.applyIf(me.callParent(arguments) || {}, me.conn.getRequiredHeaders());
+    setupHeaders: function(xhr, options, data, params) {
+        var me = this,
+            method = (options.method || me.getMethod() || ((params || data) ? 'POST' : 'GET')).toUpperCase(),
+            url = options.url,
+            headers = me.conn.getRequiredHeaders(method, url);
+        Ext.applyIf(headers, me.callParent(arguments));
+        return headers;
     },
 
     /**

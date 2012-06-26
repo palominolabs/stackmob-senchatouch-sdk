@@ -1,7 +1,10 @@
 Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
     extend: "Ext.app.Controller",
 
-    requires: ['StackMobSenchaTouchDemo.view.dessert.Details'],
+    requires: [
+        'Ext.picker.Picker',
+        'StackMobSenchaTouchDemo.view.dessert.Details'
+    ],
 
     config: {
         refs: {
