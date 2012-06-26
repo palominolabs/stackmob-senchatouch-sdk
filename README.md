@@ -112,3 +112,4 @@ limitations under the License.
 This product also includes software developed by:
 
  - Sencha Inc. (http://www.sencha.com)
+ - StackMob, Inc. (http://www.stackmob.com)
