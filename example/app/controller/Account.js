@@ -8,6 +8,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             accountMainView: '#accountMainView',
             loginButton: 'button[action=login]',
             loginPanel: '#loginForm',
+            logoutButton: 'button[action=logout]',
             profilePanel: '#profilePanel'
         },
         control: {
@@ -16,17 +17,19 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             },
             loginButton: {
                 tap: 'onLoginButtonTap'
+            },
+            logoutButton: {
+                tap: 'onLogoutButtonTap'
             }
         }
     },
 
     onAccountMainViewShow: function(view, opts) {
-        var me = this,
-            accountMainView = me.getAccountMainView();
+        var me = this;
         if (me.conn.isAuthenticated()) {
             me.showProfile();
         } else {
-            accountMainView.setActiveItem(me.getLoginPanel());
+            me.showLoginForm();
         }
     },
 
@@ -34,11 +37,34 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         var me = this,
             form = me.getLoginButton().up('formpanel');
 
+        Ext.Viewport.mask({
+            xtype: 'loadmask'
+        });
         form.submit({
             success: function(form, result) {
                 me.showProfile();
+                Ext.Viewport.unmask();
+            },
+            failure: function() {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Login Failed", "Invalid username or password.");
             }
         });
+    },
+
+    onLogoutButtonTap: function() {
+        var me = this;
+        Ext.Msg.confirm("Logout", "Are you sure?", function(btnId, value, opt) {
+            if (btnId == 'yes') {
+                me.conn.logout();
+                me.showLoginForm();
+            }
+        });
+    },
+
+    showLoginForm: function() {
+        var me = this;
+        me.getAccountMainView().setActiveItem(me.getLoginPanel());
     },
 
     showProfile: function() {

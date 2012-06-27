@@ -11,6 +11,13 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
             id: 'profileDetails',
             tpl: '<div>Logged in as <strong>{username}</strong></div>',
             styleHtmlContent: true
+        },{
+            xtype: 'button',
+            action: 'logout',
+            text: 'Logout',
+            ui: 'decline',
+            docked: 'bottom',
+            margin: 10
         }]
     },
 

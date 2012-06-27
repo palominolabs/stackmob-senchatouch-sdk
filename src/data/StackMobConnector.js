@@ -94,6 +94,16 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
+     * Destroys stored authentication information and marks the connection as unauthenticated.
+     */
+    logout: function() {
+        var storage = Ux.palominolabs.stackmob.data.StackMobStorage;
+        Ext.Object.each(storage.KEYS, function(key, value, object) {
+            storage.remove(value);
+        });
+    },
+
+    /**
      * The data returned from StackMob as the authenticated user after login
      * @return {Object} The authenticated user data
      */
