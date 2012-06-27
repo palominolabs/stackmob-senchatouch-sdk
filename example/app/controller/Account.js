@@ -24,7 +24,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         var me = this,
             accountMainView = me.getAccountMainView();
         if (me.conn.isAuthenticated()) {
-            accountMainView.setActiveItem(me.getProfilePanel());
+            me.showProfile();
         } else {
             accountMainView.setActiveItem(me.getLoginPanel());
         }

@@ -58,10 +58,10 @@ Ext.define("Ux.palominolabs.stackmob.form.StackMobLoginForm", {
      */
     submit: function(options) {
         var me = this,
-            relativeUrl = [me.conn.getLoginSchema(), '/accessToken'].join(""),
+            url = [me.conn.getUrlRoot(), me.conn.getLoginSchema(), '/accessToken'].join(""),
             augmentedOptions = {
-                url: [me.conn.getUrlRoot(), relativeUrl].join(""),
-                headers: me.conn.getRequiredHeaders(options.method || 'POST', relativeUrl)
+                url: url,
+                headers: me.conn.getRequiredHeaders(options.method || 'POST', url)
             };
         Ext.applyIf(augmentedOptions, options);
         augmentedOptions.success = function(form, result) {

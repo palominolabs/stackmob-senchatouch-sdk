@@ -113,3 +113,4 @@ This product also includes software developed by:
 
  - Sencha Inc. (http://www.sencha.com)
  - StackMob, Inc. (http://www.stackmob.com)
+ - Jeff Mott (http://code.google.com/p/crypto-js/)

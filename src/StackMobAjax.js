@@ -49,8 +49,8 @@ Ext.define("Ux.palominolabs.stackmob.StackMobAjax", {
             method = (options.method || me.getMethod() || ((params || data) ? 'POST' : 'GET')).toUpperCase(),
             url = options.url,
             headers = me.conn.getRequiredHeaders(method, url);
-        Ext.applyIf(headers, me.callParent(arguments));
-        return headers;
+        options.headers = Ext.applyIf(headers, options.headers || {});
+        return me.callParent([xhr, options, data, params]);
     },
 
     /**

@@ -70,11 +70,7 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
         me.fullUrl = options.fullUrl || false;
 
-        if (me._isDevelopmentMode()) {
-            me.urlRoot = options.urlRoot || me._getDevApiBase();
-        } else {
-            me.urlRoot = options.urlRoot || me._getProdApiBase();
-        }
+        me.urlRoot = options.urlRoot || me._getBaseUrl();
 
         me.loginSchema = options.loginSchema || me.DEFAULT_LOGIN_SCHEMA;
         me.loginField = options.loginField || me.DEFAULT_LOGIN_FIELD;
@@ -91,8 +87,10 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * @return {Boolean} True iff there is a logged in user
      */
     isAuthenticated: function() {
-        var me = this;
-        return me.accessToken && me.macKey && ((new Date()).getTime() <= me.accessTokenExpiration);
+        var storage = Ux.palominolabs.stackmob.data.StackMobStorage;
+        return storage.get(storage.KEYS.ACCESS_TOKEN)
+            && storage.get(storage.KEYS.MAC_KEY)
+            && ((new Date()).getTime() <= storage.get(storage.KEYS.ACCESS_TOKEN_EXPIRATION));
     },
 
     /**
@@ -100,7 +98,8 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * @return {Object} The authenticated user data
      */
     getAuthenticatedUserData: function() {
-        return this.authenticatedAs;
+        var storage = Ux.palominolabs.stackmob.data.StackMobStorage;
+        return Ext.JSON.decode(storage.get(storage.KEYS.AUTHENTICATED_AS));
     },
 
     /**
@@ -163,19 +162,22 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * Assembles an object containing the required headers required for communication with StackMob's
      * REST API using OAuth 2.0
      * @param {String} method The HTTP method verb
-     * @param {String} relativeUrl The relative URL for this request
+     * @param {String} url The URL for this request
      * @return {Object} Headers
      */
-    getRequiredHeaders: function(method, relativeUrl) {
+    getRequiredHeaders: function(method, url) {
         var me = this,
+            storage = Ux.palominolabs.stackmob.data.StackMobStorage,
             headers = {
                 'Accept': ['application/vnd.stackmob+json; version=', me.getApiVersion()].join(""),
                 'X-StackMob-API-Key': me.getPublicKey(),
                 'X-StackMob-Proxy-Plain': 'stackmob-api',
                 'X-StackMob-User-Agent': ['StackMob (', me.getSdkName(),'; ', me.getSdkVersion(), ')/', me.getAppName()].join("")
-            };
-        if (me.isAuthenticated() && method && relativeUrl) {
-            headers['Authorization'] = me._generateMAC(method, me.accessToken, me.macKey, me.getUrlRoot(), relativeUrl);
+            },
+            host = (me.urlRoot || '').replace(new RegExp('^http://|^https://'), '').replace(new RegExp('/'), ''),
+            path = (url || '').replace(new RegExp('^' + me.urlRoot), '/').replace(new RegExp('^([^/])'), '/$1');
+        if (me.isAuthenticated() && method && url) {
+            headers['Authorization'] = me._generateMAC(method, storage.get(storage.KEYS.ACCESS_TOKEN), storage.get(storage.KEYS.MAC_KEY), host, path);
         }
         return headers;
     },
@@ -186,13 +188,14 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * @private
      */
     _handleAuthentication: function(response) {
-        var me = this;
+        var me = this,
+            storage = Ux.palominolabs.stackmob.data.StackMobStorage;
         if (response.access_token && response.token_type && (response.token_type == me.TOKEN_TYPE_MAC || response.token_type == me.TOKEN_TYPE_BEARER)) {
-            me.authenticatedAs = response.stackmob[me.loginSchema];
-            me.accessToken = response.access_token;
-            me.accessTokenExpiration = (new Date()).getTime() + (response.expires_in * 1000);
+            storage.set(storage.KEYS.ACCESS_TOKEN, response.access_token);
+            storage.set(storage.KEYS.AUTHENTICATED_AS, Ext.JSON.encode(response.stackmob[me.loginSchema]));
+            storage.set(storage.KEYS.ACCESS_TOKEN_EXPIRATION, (new Date()).getTime() + (response.expires_in * 1000));
             if (response.token_type == me.TOKEN_TYPE_MAC) {
-                me.macKey = response.mac_key;
+                storage.set(storage.KEYS.MAC_KEY, response.mac_key);
             }
         }
     },
@@ -242,6 +245,25 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
+     * Constructs the base URL to use for all StackMob API requests
+     * @return {String} The base URL
+     * @private
+     */
+    _getBaseUrl: function() {
+        var me = this,
+            loc = window.location,
+            url;
+        if (me.apiUrl) {
+            url = me.apiUrl;
+        } else if (me.fullUrl === true) {
+            url = (me._isDevelopmentMode()) ? me._getDevApiBase() : me._getProdApiBase();
+        } else {
+            url = [loc.protocol, '//', loc.hostname, ':', loc.port, '/'].join("");
+        }
+        return url;
+    },
+
+    /**
      * Returns the base URL for the development mode API
      * @return {String} Base URL (development)
      * @private
@@ -272,16 +294,10 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
     /**
      * Injects the Google Crypto library.
-     * @return {Element} The script element
      * @private
      */
     _injectCryptoLibrary: function() {
-        var script = document.createElement('script'),
-            documentHead = typeof document != 'undefined' && (document.head || document.getElementsByTagName('head')[0]);
-        script.type = 'text/javascript';
-        script.src = 'https://s3.amazonaws.com/static.stackmob.com/js/2.5.3-crypto-sha1-hmac.js';
-        documentHead.appendChild(script);
-        return script;
+        Ux.palominolabs.stackmob.util.CryptoLoader.load();
     },
 
     _createBaseString: function(ts, nonce, method, uri, host, port) {

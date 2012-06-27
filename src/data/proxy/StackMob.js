@@ -56,7 +56,6 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         var me = this,
             params = Ext.applyIf(operation.getParams() || {}, me.getExtraParams() || {}),
             url = operation.getUrl(),
-            relativeUrl = me._extractRelativeUrl(url),
             headers,
             request;
 
@@ -75,7 +74,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
 
         // Construct the headers after the request and apply them, since we need request data
         // ... to be able to determine which headers to use.
-        headers = me.getHeaders(me.getMethod(request), relativeUrl);
+        headers = me.getHeaders(me.getMethod(request), url);
         request.setHeaders(headers);
 
         operation.setRequest(request);
@@ -92,8 +91,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
             writer  = me.getWriter(),
             request = me.buildRequest(operation),
             method = me.getMethod(request),
-            url = me.getUrl(request),
-            relativeUrl = me._extractRelativeUrl(url);
+            url = me.getUrl(request);
 
         request.setConfig({
             timeout        : me.getTimeout(),
@@ -108,7 +106,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
 
         // Construct the headers after the request and apply them, since we need request data
         // ... to be able to determine which headers to use.
-        request.setHeaders(Ext.applyIf(Ext.applyIf({}, me.getHeaders(method, relativeUrl)), me._getAdditionalHeaders(operation)));
+        request.setHeaders(Ext.applyIf(Ext.applyIf({}, me.getHeaders(method, url)), me._getAdditionalHeaders(operation)));
 
         // We now always have the writer prepare the request
         request = writer.write(request);
@@ -169,19 +167,6 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         }
 
         return headers;
-    },
-
-    /**
-     * Extracts the relative portion of the given StackMob API URL
-     * @param {String} url The full URL
-     * @return {String} THe relative portion of the URL
-     * @private
-     */
-    _extractRelativeUrl: function(url) {
-        if (url) {
-            var regex = new RegExp(Ext.String.escapeRegex("^", + this.conn.getUrlRoot()));
-            return url.replace(regex, "");
-        }
     }
 
 });
