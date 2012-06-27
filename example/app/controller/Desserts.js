@@ -93,7 +93,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
                 var store = this.getDessertList().getStore();
                 store.remove(this.selectedDessert);
                 store.sync();
-                debugger;
+                this.getMainView().pop();
             }
         }, this);
     },
