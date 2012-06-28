@@ -31,7 +31,8 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     },
 
     /**
-     * Specialized version of getHeaders which merges in the optional headers for StackMob
+     * Specialized version of getHeaders which merges in the optional headers (operation-specific) for StackMob
+     * @param {Ext.data.Operation} operation The operation
      * @return {Object} Headers
      */
     getHeaders: function(operation) {
@@ -45,36 +46,6 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
      */
     getParams: function(operation) {
         return {};
-    },
-
-    /**
-     * Specialized version of buildRequest which assembles the correct headers for StackMob.
-     * @param {Ext.data.Operation} operation The {@link Ext.data.Operation Operation} object to execute
-     * @return {Ext.data.Request} The request object
-     */
-    buildRequest: function(operation) {
-        var me = this,
-            params = Ext.applyIf(operation.getParams() || {}, me.getExtraParams() || {}),
-            url = operation.getUrl(),
-            headers = me.getHeaders(operation),
-            request;
-
-        params = Ext.applyIf(params, me.getParams(operation));
-
-        request = Ext.create('Ext.data.Request', {
-            headers  : headers,
-            params   : params,
-            action   : operation.getAction(),
-            records  : operation.getRecords(),
-            url      : url,
-            operation: operation,
-            proxy    : me
-        });
-
-        request.setUrl(me.buildUrl(request));
-
-        operation.setRequest(request);
-        return request;
     },
 
     /**
