@@ -31,12 +31,12 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     },
 
     /**
-     * Specialized version of getHeaders which merges in the required OAuth 2.0 headers for StackMob
+     * Specialized version of getHeaders which merges in the optional headers for StackMob
      * @return {Object} Headers
      */
-    getHeaders: function(method, relativeUrl) {
+    getHeaders: function(operation) {
         var me = this;
-        return Ext.applyIf(me._headers || {}, me.conn.getRequiredHeaders(method, relativeUrl));
+        return Ext.applyIf(me._headers || {}, me._getAdditionalHeaders(operation));
     },
 
     /**
@@ -56,12 +56,13 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
         var me = this,
             params = Ext.applyIf(operation.getParams() || {}, me.getExtraParams() || {}),
             url = operation.getUrl(),
-            headers,
+            headers = me.getHeaders(operation),
             request;
 
         params = Ext.applyIf(params, me.getParams(operation));
 
         request = Ext.create('Ext.data.Request', {
+            headers  : headers,
             params   : params,
             action   : operation.getAction(),
             records  : operation.getRecords(),
@@ -72,13 +73,7 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
 
         request.setUrl(me.buildUrl(request));
 
-        // Construct the headers after the request and apply them, since we need request data
-        // ... to be able to determine which headers to use.
-        headers = me.getHeaders(me.getMethod(request), url);
-        request.setHeaders(headers);
-
         operation.setRequest(request);
-
         return request;
     },
 
@@ -89,13 +84,12 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     doRequest: function(operation, callback, scope) {
         var me = this,
             writer  = me.getWriter(),
-            request = me.buildRequest(operation),
-            method = me.getMethod(request),
-            url = me.getUrl(request);
+            request = me.buildRequest(operation);
 
         request.setConfig({
+            headers        : me.getHeaders(operation),
             timeout        : me.getTimeout(),
-            method         : method,
+            method         : me.getMethod(request),
             callback       : me.createRequestCallback(request, operation, callback, scope),
             scope          : me
         });
@@ -104,26 +98,13 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
             request.setWithCredentials(true);
         }
 
-        // Construct the headers after the request and apply them, since we need request data
-        // ... to be able to determine which headers to use.
-        request.setHeaders(Ext.applyIf(Ext.applyIf({}, me.getHeaders(method, url)), me._getAdditionalHeaders(operation)));
-
         // We now always have the writer prepare the request
         request = writer.write(request);
 
-        Ext.Ajax.request(request.getCurrentConfig());
+        // Use the StackMobAjax object, which will add any required StackMob authentication headers
+        Ux.palominolabs.stackmob.StackMobAjax.request(request.getCurrentConfig());
 
         return request;
-    },
-
-    /**
-     * Specialized version of buildUrl which returns the appropriate StackMob API URL
-     * @param {Ext.data.Request} request The request object
-     * @return {String} The URL
-     */
-    buildUrl: function(request) {
-        var me = this;
-        return [me.conn.getUrlRoot(), me.callParent(arguments)].join('');
     },
 
     /**
