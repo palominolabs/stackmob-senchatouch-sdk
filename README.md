@@ -40,10 +40,12 @@ Installation
 Usage
 -----
 
-To back an `Ext.Store` with StackMob, simply use the `stackmob` proxy and supply the URL for the StackMob schema:
+### Stores and Models
+
+To back an `Ext.Store` or `Ext.data.Model` with StackMob, simply use the `stackmob` proxy and supply the URL for the StackMob schema:
 ```javascript
-Ext.define('YourAwesomeApp.store.NiftyStore', {
-    extend: 'Ext.data.Store',
+Ext.define('YourAwesomeApp.store.NiftyStore', { // (or model)
+    extend: 'Ext.data.Store', // (or Ext.data.Model)
 
     config: {
         model: 'YourAwesomeApp.model.NiftyThing',
@@ -55,7 +57,73 @@ Ext.define('YourAwesomeApp.store.NiftyStore', {
 });
 ```
 
-That's it!
+### AJAX
+
+To make an AJAX call to StackMob without using an `Ext.Store`, simply use the `Ux.palominolabs.stackmob.StackMobAjax`
+object wherever you would normally use `Ext.Ajax`:
+```javascript
+Ux.palominolabs.stackmob.StackMobAjax.request({
+    url: 'yourstackmobobjectname',
+    success: function(respose) {
+        // ...
+    },
+    // ...
+});
+```
+
+### Authentication
+
+#### Logging In
+To provide a login form for users to authenticate with StackMob, you can subclass
+`Ux.palominolabs.stackmob.form.StackMobLoginForm`.  This form will add the appropriate headers
+and hidden fields for you, and handle the authentication logic on successful submission.  All you have
+to do is add the required fields, and then calling `submit` on the form will Just Work:
+```javascript
+Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
+    extend: 'Ux.palominolabs.stackmob.form.StackMobLoginForm',
+
+    config: {
+        items: [{
+            xtype: 'fieldset',
+            items: [{
+                xtype: 'textfield',
+                name: 'username',
+                label: 'Username'
+            },{
+                xtype: 'passwordfield',
+                name: 'password',
+                label: 'Password'
+            }]
+        },{
+            xtype: 'button',
+            name: 'submit',
+            action: 'login',
+            text: 'Login'
+        }]
+    }
+});
+```
+
+Note that the names of these fields should match the login field and password field defined in your
+StackMob login schema.  The login schema itself is assumed to be `user`, but if you are using a
+different schema name, you can customize it by specifying `loginSchema` in your call to `StackMobConnector.init`.
+
+Once your user has logged in, you do not need to do anything special to support API calls that require
+authentication.
+
+#### Checking If a User Is Logged In
+
+To check if a user is authenticated, call `Ux.palominolabs.stackmob.data.StackMobConnector.isAuthenticated()`.
+
+#### Checking Which User Is Logged In
+
+You can get the authenticated user's data by calling
+`Ux.palominolabs.stackmob.data.StackMobConnector.getAuthenticatedUserData()`.  This will return an JavaScript
+Object containing the fields for the StackMob object.
+
+#### Logging Out
+
+To logout, call `Ux.palominolabs.stackmob.data.StackMobConnector.logout()`.
 
 Quick Note: Connecting to StackMob
 ----------------------
@@ -77,14 +145,6 @@ For the complete list (or to report a bug or request a feature), check out the
 - Support for associations is coming coon.
 - Autoloading stores (i.e. setting `autoLoad: true`) does not work.  The request to StackMob will fail.  For now,
  you can work around this issue by manually calling `load()` on your store when the list is displayed.
-- Currently only operations which are "open" (that is, only requiring a public key) are supported.  Support
-for authenticated operations (those requiring a private key) is coming soon.
-
-Okay... So What Does It Actually Do?
-------------------------------------
-
-The SDK currently supports using `Ext.Store`s to make basic, unauthenticated CRUD and AJAX requests to an
-OAuth 2.0-enabled StackMob app.  From humble beginnings come great things.
 
 Contributing
 ------------
