@@ -30,11 +30,9 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     DEFAULT_API_VERSION: 0,
 
     DEFAULT_LOGIN_SCHEMA: 'user',
-    DEFAULT_LOGIN_FIELD: 'username',
-    DEFAULT_PASSWORD_FIELD: 'password',
 
     SDK_NAME: "Sencha Touch",
-    SDK_VERSION: "0.2",
+    SDK_VERSION: "0.3",
 
     TOKEN_TYPE_MAC: 'mac',
     TOKEN_TYPE_BEARER: 'bearer',
@@ -73,8 +71,6 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
         me.urlRoot = options.urlRoot || me._getBaseUrl();
 
         me.loginSchema = options.loginSchema || me.DEFAULT_LOGIN_SCHEMA;
-        me.loginField = options.loginField || me.DEFAULT_LOGIN_FIELD;
-        me.passwordField = options.passwordField || me.DEFAULT_PASSWORD_FIELD;
 
         me.secure = (options.secure === true);
         me.tokenType = (me.secure) ? me.TOKEN_TYPE_BEARER : me.TOKEN_TYPE_MAC;
