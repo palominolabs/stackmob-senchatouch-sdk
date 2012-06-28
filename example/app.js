@@ -17,10 +17,20 @@ Ext.application({
         'Ux.palominolabs.stackmob.Loader'
     ],
 
-    models: ['Dessert'],
+    models: [
+        'Dessert',
+        'Friend'
+    ],
     views: ['Tabs'],
-    controllers: ['Account', 'Desserts'],
-    stores: ['Desserts'],
+    controllers: [
+        'Account',
+        'Desserts',
+        'Friends'
+    ],
+    stores: [
+        'Desserts',
+        'Friends'
+    ],
 
     launch: function() {
         // Initialize StackMob connection credentials

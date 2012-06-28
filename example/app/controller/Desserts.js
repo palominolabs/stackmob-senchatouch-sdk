@@ -13,8 +13,8 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
             addButton: 'button[action=addDessert]',
             editButton: 'button[action=editDessert]',
             deleteButton: 'button[action=deleteDessert]',
-            sortButton: 'button[action=sortButton]',
-            sortPicker: 'picker[action=sort]',
+            sortButton: 'button[action=sortDessertsButton]',
+            sortPicker: 'picker[action=sortDesserts]',
             detailsView: '#detailsView'
         },
         control: {
@@ -102,7 +102,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
         if (!this.sortPicker) {
             this.sortPicker = Ext.Viewport.add({
                 xtype: 'picker',
-                action: 'sort',
+                action: 'sortDesserts',
                 slots: [{
                     name : 'sortDir',
                     title: 'Direction',

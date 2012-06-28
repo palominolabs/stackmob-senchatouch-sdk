@@ -1,12 +1,12 @@
-Ext.define('StackMobSenchaTouchDemo.view.dessert.List', {
+Ext.define('StackMobSenchaTouchDemo.view.friend.List', {
     extend: 'Ext.List',
 
-    id: 'dessertList',
+    id: 'friendList',
 
     config: {
-        title: 'Desserts',
+        title: 'Friends',
 
-        store: 'Desserts',
+        store: 'Friends',
         itemTpl: '{name}',
 
         items: [{
@@ -17,7 +17,7 @@ Ext.define('StackMobSenchaTouchDemo.view.dessert.List', {
                 xtype: 'spacer'
             },{
                 xtype: 'button',
-                action: 'sortDessertsButton',
+                action: 'sortFriendsButton',
                 text: 'Sort'
             }]
         }]

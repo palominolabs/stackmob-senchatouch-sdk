@@ -3,6 +3,7 @@ Ext.define("StackMobSenchaTouchDemo.view.Tabs", {
 
     requires: [
         'StackMobSenchaTouchDemo.view.dessert.Main',
+        'StackMobSenchaTouchDemo.view.friend.Cards',
         'StackMobSenchaTouchDemo.view.account.Main'
     ],
 
@@ -15,6 +16,8 @@ Ext.define("StackMobSenchaTouchDemo.view.Tabs", {
             xclass: 'StackMobSenchaTouchDemo.view.dessert.Main'
         },{
             xclass: 'StackMobSenchaTouchDemo.view.account.Main'
+        },{
+            xclass: 'StackMobSenchaTouchDemo.view.friend.Cards'
         }]
     }
 });

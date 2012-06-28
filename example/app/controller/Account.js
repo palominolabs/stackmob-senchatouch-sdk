@@ -9,7 +9,9 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             loginButton: 'button[action=login]',
             loginPanel: '#loginForm',
             logoutButton: 'button[action=logout]',
-            profilePanel: '#profilePanel'
+            profilePanel: '#profilePanel',
+            goToLoginButton: 'button[action=goToLogin]',
+            tabPanel: 'tabpanel'
         },
         control: {
             accountMainView: {
@@ -20,6 +22,9 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             },
             logoutButton: {
                 tap: 'onLogoutButtonTap'
+            },
+            goToLoginButton: {
+                tap: 'onGoToLoginButtonTap'
             }
         }
     },
@@ -60,6 +65,15 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
                 me.showLoginForm();
             }
         });
+    },
+
+    onGoToLoginButtonTap: function() {
+        var me = this,
+            tabPanel = me.getTabPanel(),
+            accountMainView = me.getAccountMainView();
+        if (tabPanel.getActiveItem() != accountMainView) {
+            tabPanel.setActiveItem(accountMainView);
+        }
     },
 
     showLoginForm: function() {
