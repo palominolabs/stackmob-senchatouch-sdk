@@ -1,6 +1,11 @@
 HEAD
 ====
 
+v0.3.1 - 2012/08/23
+===================
+
+- Enhanced usability of the example application.
+
 v0.3 - 2012/06/27
 =================
 

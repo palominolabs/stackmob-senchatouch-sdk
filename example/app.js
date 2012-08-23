@@ -35,6 +35,7 @@ Ext.application({
     launch: function() {
         // Initialize StackMob connection credentials
         Ux.palominolabs.stackmob.data.StackMobConnector.init({
+            fullUrl: true,
             appName: 'stackmobdemo',
             clientSubdomain: 'andrewmitchell',
             publicKey: '1bef6219-bfaf-48a8-8564-a7e0f73e7f38'

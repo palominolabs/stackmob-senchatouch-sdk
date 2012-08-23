@@ -125,6 +125,11 @@ Object containing the fields for the StackMob object.
 
 To logout, call `Ux.palominolabs.stackmob.data.StackMobConnector.logout()`.
 
+Example
+-------
+
+See the README in the `example` directory for instructions on running the included example application.
+
 Quick Note: Connecting to StackMob
 ----------------------
 
