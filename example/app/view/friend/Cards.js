@@ -11,7 +11,7 @@ Ext.define("StackMobSenchaTouchDemo.view.friend.Cards", {
     config: {
 
         title: 'Friends',
-        iconCls: 'user_fave',
+        iconCls: 'team',
 
         layout: 'card',
         items: [{

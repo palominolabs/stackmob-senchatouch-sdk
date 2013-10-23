@@ -16,7 +16,8 @@ Ext.Loader.addClassPathMappings({
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSetRowList": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLTransaction": "touch/src/device/sqlite/Sencha.js",
-  "StackMobSenchaTouchDemo": "app"
+  "StackMobSenchaTouchDemo": "app",
+  "Ux": ""
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -640,7 +641,32 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.viewport.WindowsPhone": [
     "Ext.viewport.WP"
   ],
-  "StackMobSenchaTouchDemo.view.Main": []
+  "StackMobSenchaTouchDemo.controller.Account": [],
+  "StackMobSenchaTouchDemo.controller.Desserts": [],
+  "StackMobSenchaTouchDemo.controller.Friends": [],
+  "StackMobSenchaTouchDemo.model.Dessert": [],
+  "StackMobSenchaTouchDemo.model.Friend": [],
+  "StackMobSenchaTouchDemo.store.Desserts": [],
+  "StackMobSenchaTouchDemo.store.Friends": [],
+  "StackMobSenchaTouchDemo.view.Tabs": [],
+  "StackMobSenchaTouchDemo.view.account.Login": [],
+  "StackMobSenchaTouchDemo.view.account.Main": [],
+  "StackMobSenchaTouchDemo.view.account.Profile": [],
+  "StackMobSenchaTouchDemo.view.dessert.Details": [],
+  "StackMobSenchaTouchDemo.view.dessert.List": [],
+  "StackMobSenchaTouchDemo.view.dessert.Main": [],
+  "StackMobSenchaTouchDemo.view.friend.Cards": [],
+  "StackMobSenchaTouchDemo.view.friend.Details": [],
+  "StackMobSenchaTouchDemo.view.friend.List": [],
+  "StackMobSenchaTouchDemo.view.friend.Main": [],
+  "StackMobSenchaTouchDemo.view.friend.Unauthorized": [],
+  "Ux.palominolabs.stackmob.Loader": [],
+  "Ux.palominolabs.stackmob.StackMobAjax": [],
+  "Ux.palominolabs.stackmob.data.StackMobConnector": [],
+  "Ux.palominolabs.stackmob.data.StackMobStorage": [],
+  "Ux.palominolabs.stackmob.data.proxy.StackMob": [],
+  "Ux.palominolabs.stackmob.form.StackMobLoginForm": [],
+  "Ux.palominolabs.stackmob.util.CryptoLoader": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1359,7 +1385,32 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.viewport.Ios": [],
   "Ext.viewport.Viewport": [],
   "Ext.viewport.WindowsPhone": [],
-  "StackMobSenchaTouchDemo.view.Main": [
-    "widget.main"
-  ]
+  "StackMobSenchaTouchDemo.controller.Account": [],
+  "StackMobSenchaTouchDemo.controller.Desserts": [],
+  "StackMobSenchaTouchDemo.controller.Friends": [],
+  "StackMobSenchaTouchDemo.model.Dessert": [],
+  "StackMobSenchaTouchDemo.model.Friend": [],
+  "StackMobSenchaTouchDemo.store.Desserts": [],
+  "StackMobSenchaTouchDemo.store.Friends": [],
+  "StackMobSenchaTouchDemo.view.Tabs": [],
+  "StackMobSenchaTouchDemo.view.account.Login": [],
+  "StackMobSenchaTouchDemo.view.account.Main": [],
+  "StackMobSenchaTouchDemo.view.account.Profile": [],
+  "StackMobSenchaTouchDemo.view.dessert.Details": [],
+  "StackMobSenchaTouchDemo.view.dessert.List": [],
+  "StackMobSenchaTouchDemo.view.dessert.Main": [],
+  "StackMobSenchaTouchDemo.view.friend.Cards": [],
+  "StackMobSenchaTouchDemo.view.friend.Details": [],
+  "StackMobSenchaTouchDemo.view.friend.List": [],
+  "StackMobSenchaTouchDemo.view.friend.Main": [],
+  "StackMobSenchaTouchDemo.view.friend.Unauthorized": [],
+  "Ux.palominolabs.stackmob.Loader": [],
+  "Ux.palominolabs.stackmob.StackMobAjax": [],
+  "Ux.palominolabs.stackmob.data.StackMobConnector": [],
+  "Ux.palominolabs.stackmob.data.StackMobStorage": [],
+  "Ux.palominolabs.stackmob.data.proxy.StackMob": [
+    "proxy.stackmob"
+  ],
+  "Ux.palominolabs.stackmob.form.StackMobLoginForm": [],
+  "Ux.palominolabs.stackmob.util.CryptoLoader": []
 });
