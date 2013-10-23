@@ -27,12 +27,14 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
     singleton: true,
 
+    API_DOMAIN: 'api.stackmob.com',
+
     DEFAULT_API_VERSION: 0,
 
     DEFAULT_LOGIN_SCHEMA: 'user',
 
     SDK_NAME: "Sencha Touch",
-    SDK_VERSION: "0.3.1",
+    SDK_VERSION: "0.4.0",
 
     TOKEN_TYPE_MAC: 'mac',
     TOKEN_TYPE_BEARER: 'bearer',
@@ -41,13 +43,13 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * Initializes the connection information required to communicate with StackMob.
      * @param {Object} options Configuration options
      * @param {String} options.appName The name of the StackMob application.
-     * @param {String} options.clientSubdomain The StackMob client subdomain.
      * @param {String} options.publicKey The public key to use to sign OAuth 2.0 requests.
-     * @param {String} options.apiUrl (optional) API URL to use.
-     * @param {Number} options.apiVersion (optional) The StackMob API version.  Defaults to 0 (development).
-     * @param {String} options.loginSchema (optional) The name of the StackMob schema with which to log in
-     * @param {String} options.loginField (optional) The name of the login field for the loginSchema
-     * @param {String} options.passwordField (optional) The name of the password field for the loginSchema
+     * @param {String} [options.apiUrl] API URL to use.
+     * @param {Number} [options.apiVersion=0] The StackMob API version.  Defaults to 0 (development).
+     * @param {Boolean} [options.enableCors=false] True iff using CORS connection to StackMob
+     * @param {String} [options.loginSchema='user'] The name of the StackMob schema with which to log in
+     * @param {Boolean} [options.secure=false] True iff using HTTPS
+     * @param {String} [options.urlRoot] A URL root to override the default
      * @return {Ux.palominolabs.stackmob.data.StackMobConnector} this
      */
     init: function(options) {
@@ -61,12 +63,11 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
         me.apiVersion = options.apiVersion || me.DEFAULT_API_VERSION;
         me.appName = options.appName;
-        me.clientSubdomain = options.clientSubdomain;
 
         me.publicKey = options.publicKey;
         me.apiUrl = options.apiUrl;
 
-        me.fullUrl = options.fullUrl || false;
+        me.enableCors = options.enableCors || false;
 
         me.urlRoot = options.urlRoot || me._getBaseUrl();
 
@@ -176,12 +177,17 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
             storage = Ux.palominolabs.stackmob.data.StackMobStorage,
             headers = {
                 'Accept': ['application/vnd.stackmob+json; version=', me.getApiVersion()].join(""),
-                'X-StackMob-API-Key': me.getPublicKey(),
-                'X-StackMob-Proxy-Plain': 'stackmob-api',
                 'X-StackMob-User-Agent': ['StackMob (', me.getSdkName(),'; ', me.getSdkVersion(), ')/', me.getAppName()].join("")
             },
             host = (me.urlRoot || '').replace(new RegExp('^http://|^https://'), '').replace(new RegExp('/'), ''),
             path = (url || '').replace(new RegExp('^' + me.urlRoot), '/').replace(new RegExp('^([^/])'), '/$1');
+
+        if (me.enableCors) {
+            headers['X-StackMob-API-Key-' + me.getPublicKey()] = 1;
+        } else {
+            headers['X-StackMob-API-Key'] = me.getPublicKey();
+        }
+
         if (me.isAuthenticated() && method && url) {
             headers['Authorization'] = me._generateMAC(method, storage.get(storage.KEYS.ACCESS_TOKEN), storage.get(storage.KEYS.MAC_KEY), host, path);
         }
@@ -238,7 +244,7 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
      * @private
      */
     _getRequiredInitKeys: function() {
-        return ['appName', 'clientSubdomain', 'publicKey'];
+        return ['appName', 'publicKey'];
     },
 
     /**
@@ -261,32 +267,12 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
             url;
         if (me.apiUrl) {
             url = me.apiUrl;
-        } else if (me.fullUrl === true) {
-            url = (me._isDevelopmentMode()) ? me._getDevApiBase() : me._getProdApiBase();
+        } else if (me.enableCors === true) {
+            url = me._getScheme() + '://' + me.API_DOMAIN + '/';
         } else {
             url = [loc.protocol, '//', loc.hostname, ':', loc.port, '/'].join("");
         }
         return url;
-    },
-
-    /**
-     * Returns the base URL for the development mode API
-     * @return {String} Base URL (development)
-     * @private
-     */
-    _getDevApiBase : function() {
-        var me = this;
-        return me.fullUrl === true ? me._getScheme() + '://dev.' + me.appName + '.' + me.clientSubdomain + '.stackmobapp.com/' : '/';
-    },
-
-    /**
-     * Returns the base URL for the production mode API
-     * @return {String} Base URL (production)
-     * @private
-     */
-    _getProdApiBase : function() {
-        var me = this;
-        return me.fullUrl === true ? me._getScheme() + '://' + me.appName + '.' + me.clientSubdomain + '.stackmobapp.com/' : '/';
     },
 
     /**
