@@ -13,6 +13,11 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
             styleHtmlContent: true
         },{
             xtype: 'button',
+            action: 'showResetPassword',
+            text: 'Reset Password',
+            margin: 10
+        },{
+            xtype: 'button',
             action: 'logout',
             text: 'Logout',
             ui: 'decline',

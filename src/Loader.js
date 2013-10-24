@@ -27,6 +27,6 @@ Ext.define("Ux.palominolabs.stackmob.Loader", {
         "Ux.palominolabs.stackmob.StackMobAjax",
         "Ux.palominolabs.stackmob.data.proxy.StackMob",
         "Ux.palominolabs.stackmob.data.StackMobStorage",
-        "Ux.palominolabs.stackmob.form.StackMobLoginForm"
+        "Ux.palominolabs.stackmob.form.StackMobForm"
     ]
 });

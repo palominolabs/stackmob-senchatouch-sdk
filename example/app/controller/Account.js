@@ -9,6 +9,9 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             loginButton: 'button[action=login]',
             loginPanel: '#loginForm',
             logoutButton: 'button[action=logout]',
+            resetPasswordPanel: '#resetPasswordForm',
+            resetPasswordButton: 'button[action=resetPassword]',
+            showResetPasswordButton: 'button[action=showResetPassword]',
             profilePanel: '#profilePanel',
             goToLoginButton: 'button[action=goToLogin]',
             tabPanel: 'tabpanel'
@@ -22,6 +25,12 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             },
             logoutButton: {
                 tap: 'onLogoutButtonTap'
+            },
+            resetPasswordButton: {
+                tap: 'onResetPasswordButtonTap'
+            },
+            showResetPasswordButton: {
+                tap: 'onShowResetPasswordButtonTap'
             },
             goToLoginButton: {
                 tap: 'onGoToLoginButtonTap'
@@ -46,6 +55,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             xtype: 'loadmask'
         });
         form.submit({
+            url: me.conn.getLoginUrl(),
             success: function(form, result) {
                 me.showProfile();
                 Ext.Viewport.unmask();
@@ -65,6 +75,32 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
                 me.showLoginForm();
             }
         });
+    },
+
+    onResetPasswordButtonTap: function() {
+    var me = this,
+        form = me.getResetPasswordButton().up('formpanel'),
+        options = form.getValues();
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask'
+        });
+
+        options.success = function(form, result) {
+            me.showProfile();
+            Ext.Viewport.unmask();
+        };
+        options.failure = function() {
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Reset Password Failed", "Invalid old or new password.");
+        };
+
+        me.conn.resetPassword(options);
+    },
+
+    onShowResetPasswordButtonTap: function() {
+        var me = this;
+        me.getAccountMainView().setActiveItem(me.getResetPasswordPanel());
     },
 
     onGoToLoginButtonTap: function() {

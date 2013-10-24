@@ -1,12 +1,12 @@
-Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
-    extend: 'Ux.palominolabs.stackmob.form.StackMobForm',
+Ext.define("StackMobSenchaTouchDemo.view.account.ResetPassword", {
+    extend: 'Ext.form.Panel',
 
     requires: [
         'Ext.field.Password',
         'Ext.form.FieldSet'
     ],
 
-    id: 'loginForm',
+    id: 'resetPasswordForm',
 
     config: {
         items: [{
@@ -16,19 +16,19 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
         },{
             xtype: 'fieldset',
             items: [{
-                xtype: 'textfield',
-                name: 'username',
-                label: 'Username'
+                xtype: 'passwordfield',
+                name: 'oldPassword',
+                label: 'Old Password'
             },{
                 xtype: 'passwordfield',
-                name: 'password',
-                label: 'Password'
+                name: 'newPassword',
+                label: 'New Password'
             }]
         },{
             xtype: 'button',
             name: 'submit',
-            action: 'login',
-            text: 'Login'
+            action: 'resetPassword',
+            text: 'Reset Password'
         }]
     }
 });

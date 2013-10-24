@@ -3,7 +3,8 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Main", {
 
     requires: [
         'StackMobSenchaTouchDemo.view.account.Login',
-        'StackMobSenchaTouchDemo.view.account.Profile'
+        'StackMobSenchaTouchDemo.view.account.Profile',
+        'StackMobSenchaTouchDemo.view.account.ResetPassword'
     ],
 
     id: 'accountMainView',
@@ -16,6 +17,8 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Main", {
             xclass: 'StackMobSenchaTouchDemo.view.account.Login'
         },{
             xclass: 'StackMobSenchaTouchDemo.view.account.Profile'
+        },{
+            xclass: 'StackMobSenchaTouchDemo.view.account.ResetPassword'
         }]
     }
 });

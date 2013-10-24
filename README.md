@@ -82,12 +82,12 @@ Ux.palominolabs.stackmob.StackMobAjax.request({
 
 #### Logging In
 To provide a login form for users to authenticate with StackMob, you can subclass
-`Ux.palominolabs.stackmob.form.StackMobLoginForm`.  This form will add the appropriate headers
+`Ux.palominolabs.stackmob.form.StackMobForm`.  This form will add the appropriate headers
 and hidden fields for you, and handle the authentication logic on successful submission.  All you have
 to do is add the required fields, and then calling `submit` on the form will Just Work:
 ```javascript
 Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
-    extend: 'Ux.palominolabs.stackmob.form.StackMobLoginForm',
+    extend: 'Ux.palominolabs.stackmob.form.StackMobForm',
 
     config: {
         items: [{
@@ -131,6 +131,12 @@ Object containing the fields for the StackMob object.
 #### Logging Out
 
 To logout, call `Ux.palominolabs.stackmob.data.StackMobConnector.logout()`.
+
+#### Reset Password
+
+To reset the logged-in user's password, call `Ux.palominolabs.stackmob.data.StackMobConnector.resetPassword(options)`.
+The options should include both an `oldPassword` and a `newPassword`. All other options available for
+`Ext.data.Connection.request` are also supported.
 
 Example
 -------
