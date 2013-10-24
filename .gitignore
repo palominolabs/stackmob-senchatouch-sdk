@@ -4,3 +4,4 @@ stackmob-senchatouch-sdk.iml
 .DS_Store
 README.pdf
 Changelog.pdf
+example/build/*

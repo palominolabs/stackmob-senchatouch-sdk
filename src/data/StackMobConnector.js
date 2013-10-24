@@ -91,10 +91,19 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
-     * Destroys stored authentication information and marks the connection as unauthenticated.
+     * Sends request to StackMob REST API to logout user and destroys stored
+     * authentication information to mark the connection as unauthenticated.
      */
     logout: function() {
-        var storage = Ux.palominolabs.stackmob.data.StackMobStorage;
+        var me = this,
+            storage = Ux.palominolabs.stackmob.data.StackMobStorage,
+            url = [me.getLoginSchema(), '/logout'].join("");
+
+        Ux.palominolabs.stackmob.StackMobAjax.request({
+            url: url,
+            headers: me.getRequiredHeaders('GET', url)
+        });
+
         Ext.Object.each(storage.KEYS, function(key, value, object) {
             storage.remove(value);
         });
