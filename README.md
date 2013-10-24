@@ -8,14 +8,16 @@ much a beta.
 Installation
 -----
 
-1. Place the extension in your codebase (might we suggest `ux/stackmob-senchatouch`).
+1. Place the extension in your codebase (might we suggest `ux/stackmob-senchatouch`). Note that you will need to
+modify your classpath in `sencha.cfg` if you locate the `ux` folder outside of your `app` directory.
+
 1. Tell `Ext.Loader` (in `app.js`) where to find the extension's namespace:
 
     ```javascript
     Ext.Loader.setConfig({
         enabled: true,
         paths: {
-            'Ext': 'sdk/src',
+            'Ext': '/touch/src',
             'Ux.palominolabs.stackmob': 'ux/stackmob-senchatouch'
         }
     });
@@ -32,10 +34,11 @@ Installation
     ```javascript
     Ux.palominolabs.stackmob.data.StackMobConnector.init({
         appName: '<YOUR APP NAME>',
-        clientSubdomain: '<YOUR CLIENT SUBDOMAIN>',
         publicKey: '<YOUR PUBLIC KEY>'
     });
     ```
+
+    If you are accessing StackMob's API through a cross-origin domain, you will also need to add `enableCors: true` to the `init` config.
 
 Usage
 -----
@@ -160,7 +163,7 @@ to hear your feedback - be it questions, comments, concerns, worries, whimpers, 
 Copyright
 ---------
 
-Copyright 2012 Palomino Labs, Inc.
+Copyright 2012-2013 Palomino Labs, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
