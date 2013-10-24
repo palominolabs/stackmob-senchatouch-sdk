@@ -8,7 +8,7 @@ Ext.define("StackMobSenchaTouchDemo.view.dessert.Main", {
     config: {
 
         title: 'Desserts',
-        iconCls: 'piechart',
+        iconCls: 'chart',
 
         items: [{
             xclass: 'StackMobSenchaTouchDemo.view.dessert.List'
