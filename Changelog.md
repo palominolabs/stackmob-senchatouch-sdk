@@ -6,6 +6,7 @@ v0.4.0 - 2013/10/24
 
 - Updated SDK to reflect StackMob REST API changes.
 - Updated example to use Sencha Touch 2.3.0.
+- [#5] Added support for autoLoading stores.
 
 v0.3.1 - 2012/08/23
 ===================

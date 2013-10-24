@@ -19,7 +19,6 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
         },
         control: {
             dessertList: {
-                initialize: 'onDessertListInitialize',
                 itemtap: 'onDessertSelect'
             },
             mainView: {
@@ -42,10 +41,6 @@ Ext.define("StackMobSenchaTouchDemo.controller.Desserts", {
                 change: 'onSortPickerChange'
             }
         }
-    },
-
-    onDessertListInitialize: function(list, options) {
-        list.getStore().load();
     },
 
     onDessertSelect: function(list, index, node, record) {

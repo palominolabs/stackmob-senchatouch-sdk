@@ -29,12 +29,16 @@ modify your classpath in `sencha.cfg` if you locate the `ux` folder outside of y
     requires: ['Ux.palominolabs.stackmob.Loader'];
     ```
 
-1. Supply your StackMob connection information (your `Ext.Application`'s `launch` function is a good place to do so):
+1. Supply your StackMob connection information in your `Ext.Application`'s configuration:
 
     ```javascript
-    Ux.palominolabs.stackmob.data.StackMobConnector.init({
-        appName: '<YOUR APP NAME>',
-        publicKey: '<YOUR PUBLIC KEY>'
+    Ext.application({
+        // ... snip ...
+        stackMob: {
+            appName: '<YOUR APP NAME>',
+            publicKey: '<YOUR PUBLIC KEY>'
+        },
+        // ... snip ...
     });
     ```
 
@@ -137,9 +141,7 @@ Quick Note: Connecting to StackMob
 ----------------------
 
 Keep in mind that, due to cross-domain restrictions, in order to communicate with StackMob from your
-Sencha Touch app, you need to either [use StackMob's Local Runner](https://www.stackmob.com/platform/help/tutorials/html5_js_sdk#a-step_2_of_3:_running_this_file_locally)
-(in a development environment) or [host your Sencha Touch app on StackMob](http://www.stackmob.com/devcenter/docs/Deploying-your-HTML5-App-to-Production)
-(for production).
+Sencha Touch app in development, you may want to [enable CORS for your application](https://dashboard.stackmob.com/module/cors).
 
 Also keep in mind that you must enable OAuth 2.0 for your StackMob application to use this extension.
 
@@ -151,8 +153,6 @@ For the complete list (or to report a bug or request a feature), check out the
 
 - Filtering is coming soon.
 - Support for associations is coming coon.
-- Autoloading stores (i.e. setting `autoLoad: true`) does not work.  The request to StackMob will fail.  For now,
- you can work around this issue by manually calling `load()` on your store when the list is displayed.
 
 Contributing
 ------------

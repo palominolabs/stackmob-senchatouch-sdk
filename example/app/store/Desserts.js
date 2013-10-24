@@ -7,6 +7,7 @@ Ext.define('StackMobSenchaTouchDemo.store.Desserts', {
             type: 'stackmob',
             url: 'dessert'
         },
-        remoteSort: true
+        remoteSort: true,
+        autoLoad: true
     }
 });

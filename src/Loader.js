@@ -23,6 +23,7 @@ Ext.define("Ux.palominolabs.stackmob.Loader", {
     requires: [
         "Ux.palominolabs.stackmob.util.CryptoLoader", // Must require crypto loader first
         "Ux.palominolabs.stackmob.data.StackMobConnector", // Must require the connector next
+        "Ux.palominolabs.stackmob.app.Application",
         "Ux.palominolabs.stackmob.StackMobAjax",
         "Ux.palominolabs.stackmob.data.proxy.StackMob",
         "Ux.palominolabs.stackmob.data.StackMobStorage",

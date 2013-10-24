@@ -58,7 +58,6 @@ Ext.define("StackMobSenchaTouchDemo.controller.Friends", {
             if (!me.conn.isAuthenticated()) {
                 cardView.setActiveItem(me.getUnauthorizedView());
             } else {
-                me.getFriendList().getStore().load();
                 cardView.setActiveItem(me.getMainView());
             }
         }

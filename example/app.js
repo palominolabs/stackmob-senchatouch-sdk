@@ -62,15 +62,13 @@ Ext.application({
         '1496x2048': 'resources/startup/1496x2048.png'
     },
 
+    stackMob: {
+        enableCors: true,
+        appName: 'stackmobdemo',
+        publicKey: '1bef6219-bfaf-48a8-8564-a7e0f73e7f38'
+    },
+
     launch: function() {
-        // Initialize StackMob connection credentials
-        Ux.palominolabs.stackmob.data.StackMobConnector.init({
-            enableCors: true,
-            appName: 'stackmobdemo',
-            publicKey: '1bef6219-bfaf-48a8-8564-a7e0f73e7f38'
-        });
-
-
         // Destroy the #appLoadingIndicator element
         Ext.fly('appLoadingIndicator').destroy();
 
