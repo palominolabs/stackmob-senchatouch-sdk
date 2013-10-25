@@ -1,4 +1,4 @@
-Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
+Ext.define("StackMobSenchaTouchDemo.view.account.CreateUser", {
     extend: 'Ux.palominolabs.stackmob.form.StackMobForm',
 
     requires: [
@@ -6,13 +6,13 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
         'Ext.form.FieldSet'
     ],
 
-    id: 'loginForm',
+    id: 'createUserForm',
 
     config: {
         items: [{
             xtype: 'toolbar',
             docked: 'top',
-            title: 'Login'
+            title: 'Create User'
         },{
             xtype: 'fieldset',
             items: [{
@@ -27,14 +27,8 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
         },{
             xtype: 'button',
             name: 'submit',
-            action: 'login',
-            text: 'Login'
-        },{
-            xtype: 'button',
-            name: 'showCreateUser',
-            action: 'showCreateUser',
-            text: 'Don\'t have an account? Create one',
-            margin: '10 0 0 0'
+            action: 'createUser',
+            text: 'Create User'
         }]
     }
 });

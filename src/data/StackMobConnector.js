@@ -110,6 +110,27 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
+     * Send request to StackMob REST API to create a new user.
+     * This API is needed because STackMob's user table's primary key is username.
+     * @param {Object} options
+     * @param {Object} options.userData the data to create the new user with
+     * @param {Function} [options.failure] failure callback for request
+     * @param {Function} [options.success] success callback for request
+     */
+    createUser: function(options) {
+        var me = this,
+            url = this.getLoginSchema(),
+            augmentedOptions = {
+                url: url,
+                headers: me.getRequiredHeaders('POST', url),
+                jsonData: options.userData
+            };
+
+        Ext.applyIf(augmentedOptions, options);
+        Ux.palominolabs.stackmob.StackMobAjax.request(augmentedOptions);
+    },
+
+    /**
      * Send request to StackMob REST API to reset current user's password.
      * @param {Object} options
      * @param {Object} options.oldPassword the current password for the logged in user
@@ -123,10 +144,10 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
             augmentedOptions = {
                 url: url,
                 headers: me.getRequiredHeaders('POST', url),
-                jsonData: Ext.JSON.encode({
+                jsonData: {
                     old: {password: options.oldPassword},
                     new: {password: options.newPassword}
-                })
+                }
             };
 
         Ext.applyIf(augmentedOptions, options);

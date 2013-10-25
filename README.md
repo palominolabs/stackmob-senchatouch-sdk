@@ -132,6 +132,12 @@ Object containing the fields for the StackMob object.
 
 To logout, call `Ux.palominolabs.stackmob.data.StackMobConnector.logout()`.
 
+#### Creating a New User
+
+To create a new user, call `Ux.palominolabs.stackmob.data.StackMobConnector.createUser(options)`.
+The options should include `userData` to populate the new user entry with. All other options available for
+`Ext.data.Connection.request` are also supported.
+
 #### Reset Password
 
 To reset the logged-in user's password, call `Ux.palominolabs.stackmob.data.StackMobConnector.resetPassword(options)`.

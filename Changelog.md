@@ -9,6 +9,7 @@ v0.4.0 - 2013/10/24
 - [#5] Added support for autoLoading stores.
 - [#17] Added in a resetPassword functionality
 - [#20] Logout now uses StackMob's API to revoke password.
+- [#21] Added a CreateUser functionality.
 
 v0.3.1 - 2012/08/23
 ===================

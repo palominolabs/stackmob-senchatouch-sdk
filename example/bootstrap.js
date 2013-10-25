@@ -1393,6 +1393,7 @@ Ext.ClassManager.addNameAliasMappings({
   "StackMobSenchaTouchDemo.store.Desserts": [],
   "StackMobSenchaTouchDemo.store.Friends": [],
   "StackMobSenchaTouchDemo.view.Tabs": [],
+  "StackMobSenchaTouchDemo.view.account.CreateUser": [],
   "StackMobSenchaTouchDemo.view.account.Login": [],
   "StackMobSenchaTouchDemo.view.account.Main": [],
   "StackMobSenchaTouchDemo.view.account.Profile": [],

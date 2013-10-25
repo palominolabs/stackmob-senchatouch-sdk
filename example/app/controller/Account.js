@@ -6,6 +6,9 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
     config: {
         refs: {
             accountMainView: '#accountMainView',
+            createUserButton: 'button[action=createUser]',
+            createUserPanel: '#createUserForm',
+            showCreateUserButton: 'button[action=showCreateUser]',
             loginButton: 'button[action=login]',
             loginPanel: '#loginForm',
             logoutButton: 'button[action=logout]',
@@ -19,6 +22,12 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         control: {
             accountMainView: {
                 show: 'onAccountMainViewShow'
+            },
+            createUserButton: {
+                tap: 'onCreateUserButtonTap'
+            },
+            showCreateUserButton: {
+                tap: 'onShowCreateUserButtonTap'
             },
             loginButton: {
                 tap: 'onLoginButtonTap'
@@ -45,6 +54,33 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         } else {
             me.showLoginForm();
         }
+    },
+
+    onCreateUserButtonTap: function() {
+        var me = this,
+            form = me.getCreateUserButton().up('formpanel'),
+            formValues = form.getValues();
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask'
+        });
+
+        me.conn.createUser({
+            success: function(form, result) {
+                Ext.Viewport.unmask();
+                me.showLoginForm();
+                Ext.Msg.alert("User Successfully Created", "Great Job!");
+            },
+            failure: function() {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Create User Failed", "Invalid username or password.");
+            },
+            userData: formValues
+        });
+    },
+
+    onShowCreateUserButtonTap: function() {
+        this.showCreateUserForm();
     },
 
     onLoginButtonTap: function() {
@@ -89,6 +125,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         options.success = function(form, result) {
             me.showProfile();
             Ext.Viewport.unmask();
+            Ext.Msg.alert("Password Successfully Reset", "Great Job!");
         };
         options.failure = function() {
             Ext.Viewport.unmask();
@@ -122,5 +159,10 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             profilePanel = me.getProfilePanel();
         profilePanel.setRecord(me.conn.getAuthenticatedUserData());
         me.getAccountMainView().setActiveItem(profilePanel);
+    },
+
+    showCreateUserForm: function() {
+        var me = this;
+        me.getAccountMainView().setActiveItem(me.getCreateUserPanel());
     }
 });
