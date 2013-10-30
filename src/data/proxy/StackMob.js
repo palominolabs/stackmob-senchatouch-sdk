@@ -23,9 +23,17 @@ Ext.define("Ux.palominolabs.stackmob.data.proxy.StackMob", {
     extend: 'Ext.data.proxy.Rest',
     alias: 'proxy.stackmob',
 
+    requires: [
+        'Ux.palominolabs.stackmob.data.writer.StackMob'
+    ],
+
     conn: Ux.palominolabs.stackmob.data.StackMobConnector,
 
     config: {
+        // Use the stackmob writer, to handle binary fields
+        writer: {
+            type: 'stackmob'
+        },
         // Disable cache busting, since StackMob rejects the GET params added by ServerProxy.
         noCache: false
     },

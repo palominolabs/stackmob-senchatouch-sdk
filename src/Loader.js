@@ -24,9 +24,14 @@ Ext.define("Ux.palominolabs.stackmob.Loader", {
         "Ux.palominolabs.stackmob.util.CryptoLoader", // Must require crypto loader first
         "Ux.palominolabs.stackmob.data.StackMobConnector", // Must require the connector next
         "Ux.palominolabs.stackmob.app.Application",
+        "Ux.palominolabs.stackmob.util.File",
         "Ux.palominolabs.stackmob.StackMobAjax",
+        'Ux.palominolabs.stackmob.data.Types',
         "Ux.palominolabs.stackmob.data.proxy.StackMob",
         "Ux.palominolabs.stackmob.data.StackMobStorage",
         "Ux.palominolabs.stackmob.form.StackMobLoginForm"
     ]
+}, function () {
+    // Extend the static list of data types once the Loader has finished loading
+    Ux.palominolabs.stackmob.data.Types.install();
 });

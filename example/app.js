@@ -31,7 +31,8 @@ Ext.application({
 
     models: [
         'Dessert',
-        'Friend'
+        'Friend',
+        'User'
     ],
     views: ['Tabs'],
     controllers: [
@@ -86,5 +87,13 @@ Ext.application({
                 }
             }
         );
+    },
+
+    setLoggedInUser: function (user) {
+        this.LOGGED_IN_USER = user;
+    },
+
+    getLoggedInUser: function () {
+        return this.LOGGED_IN_USER;
     }
 });

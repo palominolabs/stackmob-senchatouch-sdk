@@ -1,6 +1,10 @@
 Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
     extend: 'Ext.Container',
 
+    requires: [
+        'Ext.field.File'
+    ],
+
     id: 'profilePanel',
 
     config: {
@@ -9,8 +13,18 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
             title: 'Profile'
         },{
             id: 'profileDetails',
-            tpl: '<div>Logged in as <strong>{username}</strong></div>',
+            tpl: '<div>Logged in as <strong>{username}</strong></div><tpl if="picture"><img src={picture}></tpl>',
             styleHtmlContent: true
+        },{
+            xtype: 'button',
+            action: 'savePicture',
+            text: 'Save Picture',
+            hidden: true,
+            margin: 10
+        },{
+            xtype: 'filefield',
+            label: 'Set Profile Picture',
+            id: 'profileImageField'
         },{
             xtype: 'button',
             action: 'logout',
@@ -19,9 +33,5 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
             docked: 'bottom',
             margin: 10
         }]
-    },
-
-    setRecord: function(newRecord) {
-        this.down('#profileDetails').setData(newRecord);
     }
 });

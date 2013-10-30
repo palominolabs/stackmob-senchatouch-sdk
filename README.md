@@ -132,6 +132,58 @@ Object containing the fields for the StackMob object.
 
 To logout, call `Ux.palominolabs.stackmob.data.StackMobConnector.logout()`.
 
+### Storing Files in S3
+
+StackMob supports file uploads in the form of [binary fields](https://developer.stackmob.com/module/s3).  This SDK
+provides a few tools for interacting with these fields, either as a model field, or directly in an AJAX request.  The
+core of this functionality is provided by the `Ux.palominolabs.stackmob.util.File` class.
+
+Given a native `File` object, you can read the file into an encoded string representation which can be used
+in the DOM, as well as converted to the transport format required by StackMob.  To create the data URL, you can do
+something like this:
+```javascript
+// Given a File object called myFile with filename myFileFilename...
+var encodedDataUrl;
+Ux.palominolabs.stackmob.util.File.readFile(myFile, function (intermediateDataUrl) {
+    encodedDataUrl = Ux.palominolabs.stackmob.util.File.embedFilenameInDataUrl(myFileFilename, intermediateDataUrl);
+});
+```
+
+...which results in a data URL which can be, for instance, used as the `src` attribute of an `img` tag, and can further
+be converted into StackMob's required format for upload:
+```javascript
+var stackMobFormattedFile = Ux.palominolabs.stackmob.util.File.generateStackMobBinaryDataForDataUrlWithFilename(encodedDataUrl);
+```
+
+If you are executing a manual `StackMobAjax.request`, you can use `stackMobFormattedFile` to upload the file.  If,
+however, the file is the value of a model field, the process is slightly simpler.  You can use the `stackmobbinary`
+field data type to handle the final step (`generateStackMobBinaryDataForDataUrlWithFilename`) when necessary:
+```javascript
+Ext.define('YourAwesomeApp.model.NiftyModel', {
+    extend: 'Ext.data.Model',
+
+    config: {
+        field: [
+            {name: 'picture', type: 'stackmobbinary'}
+        ]
+        proxy: {
+            type: 'stackmob',
+            url: 'yourstackmobschemaname'
+        }
+    }
+});
+```
+
+In this way, if you `set` the `picture` field to values which are generate by `Ux.palominolabs.stackmob.util.File.embedFilenameInDataUrl`
+as demonstrated above, the `stackmob` proxy will automatically handle converting the data URL into the format expected
+by StackMob.  This field type is polymorphic, in that "dirty" values that you set will be data URLs describing a file,
+whereas "clean" values that come from StackMob will be S3 URLs.  In many cases, this will Just Work as expected,
+but this is an important caveat to be aware of.  A working example of using a model with a `stackmobbinary` field
+can be found in the example application.
+
+Remember, to use binary fields, you must [configure your schema](https://developer.stackmob.com/module/s3) appropriately
+in StackMob.
+
 Example
 -------
 
