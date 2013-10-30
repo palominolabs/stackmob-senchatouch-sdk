@@ -29,7 +29,7 @@ Ext.define("Ux.palominolabs.stackmob.Loader", {
         'Ux.palominolabs.stackmob.data.Types',
         "Ux.palominolabs.stackmob.data.proxy.StackMob",
         "Ux.palominolabs.stackmob.data.StackMobStorage",
-        "Ux.palominolabs.stackmob.form.StackMobLoginForm"
+        "Ux.palominolabs.stackmob.form.StackMobForm"
     ]
 }, function () {
     // Extend the static list of data types once the Loader has finished loading

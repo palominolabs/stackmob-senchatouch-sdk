@@ -110,6 +110,51 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     },
 
     /**
+     * Send request to StackMob REST API to create a new user.
+     * This API is needed because STackMob's user table's primary key is username.
+     * @param {Object} options
+     * @param {Object} options.userData the data to create the new user with
+     * @param {Function} [options.failure] failure callback for request
+     * @param {Function} [options.success] success callback for request
+     */
+    createUser: function(options) {
+        var me = this,
+            url = this.getLoginSchema(),
+            augmentedOptions = {
+                url: url,
+                headers: me.getRequiredHeaders('POST', url),
+                jsonData: options.userData
+            };
+
+        Ext.applyIf(augmentedOptions, options);
+        Ux.palominolabs.stackmob.StackMobAjax.request(augmentedOptions);
+    },
+
+    /**
+     * Send request to StackMob REST API to reset current user's password.
+     * @param {Object} options
+     * @param {Object} options.oldPassword the current password for the logged in user
+     * @param {Object} options.newPassword the new password to switch to
+     * @param {Function} [options.failure] failure callback for request
+     * @param {Function} [options.success] success callback for request
+     */
+    resetPassword: function(options) {
+        var me = this,
+            url = [this.getLoginSchema(), '/resetPassword'].join(""),
+            augmentedOptions = {
+                url: url,
+                headers: me.getRequiredHeaders('POST', url),
+                jsonData: {
+                    old: {password: options.oldPassword},
+                    new: {password: options.newPassword}
+                }
+            };
+
+        Ext.applyIf(augmentedOptions, options);
+        Ux.palominolabs.stackmob.StackMobAjax.request(augmentedOptions);
+    },
+
+    /**
      * The data returned from StackMob as the authenticated user after login
      * @return {Object} The authenticated user data
      */
@@ -168,6 +213,14 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
 
     getLoginSchema: function() {
         return this.loginSchema;
+    },
+
+    /**
+     * Returns the URL for the StackMob Rest API login call
+     * @returns {string} The login url
+     */
+    getLoginUrl: function() {
+        return [this.getUrlRoot(), this.getLoginSchema(), '/accessToken'].join("");
     },
 
     getTokenType: function() {

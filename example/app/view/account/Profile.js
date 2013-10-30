@@ -27,6 +27,11 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Profile", {
             id: 'profileImageField'
         },{
             xtype: 'button',
+            action: 'showResetPassword',
+            text: 'Reset Password',
+            margin: 10
+        },{
+            xtype: 'button',
             action: 'logout',
             text: 'Logout',
             ui: 'decline',
