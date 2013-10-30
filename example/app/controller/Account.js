@@ -20,7 +20,8 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             savePictureButton: 'button[action=savePicture]',
             profileDetails: '#profileDetails',
             goToLoginButton: 'button[action=goToLogin]',
-            tabPanel: 'tabpanel'
+            tabPanel: 'tabpanel',
+            friendList: '#friendList'
         },
         control: {
             accountMainView: {
@@ -108,6 +109,7 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
                 me.getApplication().setLoggedInUser(Ext.create('StackMobSenchaTouchDemo.model.User', me.conn.getAuthenticatedUserData()));
                 me.showProfile();
                 Ext.Viewport.unmask();
+                me.getFriendList().getStore().load();
             },
             failure: function() {
                 Ext.Viewport.unmask();
