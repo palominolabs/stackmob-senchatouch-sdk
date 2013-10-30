@@ -34,7 +34,7 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     DEFAULT_LOGIN_SCHEMA: 'user',
 
     SDK_NAME: "Sencha Touch",
-    SDK_VERSION: "0.4.0",
+    SDK_VERSION: "0.4.1",
 
     TOKEN_TYPE_MAC: 'mac',
     TOKEN_TYPE_BEARER: 'bearer',
