@@ -5,6 +5,8 @@ v0.4.1 - 2013/10/30
 ===================
 
 - Added support for uploading binary files to S3.
+- [#16] Added in forgot password functionality
+- [#15] Updated example to demonstrate logging in with temporary password
 
 v0.4.0 - 2013/10/24
 ===================

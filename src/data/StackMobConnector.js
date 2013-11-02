@@ -133,8 +133,8 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
     /**
      * Send request to StackMob REST API to reset current user's password.
      * @param {Object} options
-     * @param {Object} options.oldPassword the current password for the logged in user
-     * @param {Object} options.newPassword the new password to switch to
+     * @param {String} options.oldPassword the current password for the logged in user
+     * @param {String} options.newPassword the new password to switch to
      * @param {Function} [options.failure] failure callback for request
      * @param {Function} [options.success] success callback for request
      */
@@ -147,6 +147,28 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
                 jsonData: {
                     old: {password: options.oldPassword},
                     new: {password: options.newPassword}
+                }
+            };
+
+        Ext.applyIf(augmentedOptions, options);
+        Ux.palominolabs.stackmob.StackMobAjax.request(augmentedOptions);
+    },
+
+    /**
+     * Send a request to StackMob REST API for a forgotten password.
+     * StackMob will send them an email with the temporary password.
+     * @param {Object} options
+     * @param {String} options.username username for forgotten password
+     * @param {function} [options.failure] failure callback for request
+     */
+    forgotPassword: function(options) {
+        var me = this,
+            url = [this.getLoginSchema(), '/forgotPassword'].join(""),
+            augmentedOptions = {
+                url: url,
+                headers: me.getRequiredHeaders('POST', url),
+                jsonData: {
+                    username: options.username
                 }
             };
 

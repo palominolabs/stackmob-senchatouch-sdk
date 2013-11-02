@@ -1,4 +1,4 @@
-Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
+Ext.define("StackMobSenchaTouchDemo.view.account.TemporaryPasswordLogin", {
     extend: 'Ux.palominolabs.stackmob.form.StackMobForm',
 
     requires: [
@@ -6,7 +6,7 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
         'Ext.form.FieldSet'
     ],
 
-    id: 'loginForm',
+    id: 'temporaryPasswordLoginForm',
 
     config: {
         items: [{
@@ -22,25 +22,17 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Login", {
             },{
                 xtype: 'passwordfield',
                 name: 'password',
-                label: 'Password'
+                label: 'Temporary Password'
+            },{
+                xtype: 'passwordfield',
+                name: 'new_password',
+                label: 'New Password'
             }]
         },{
             xtype: 'button',
             name: 'submit',
-            action: 'login',
+            action: 'temporaryPasswordLogin',
             text: 'Login'
-        },{
-            xtype: 'button',
-            name: 'showForgotPassword',
-            action: 'showForgotPassword',
-            text: 'Forgot your password?',
-            margin: '10 0 0 0'
-        }, {
-            xtype: 'button',
-            name: 'showCreateUser',
-            action: 'showCreateUser',
-            text: 'Don\'t have an account? Create one',
-            margin: '10 0 0 0'
         }]
     }
 });
