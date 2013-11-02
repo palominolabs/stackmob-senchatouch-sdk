@@ -9,6 +9,11 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             createUserButton: 'button[action=createUser]',
             createUserPanel: '#createUserForm',
             showCreateUserButton: 'button[action=showCreateUser]',
+            forgotPasswordButton: 'button[action=forgotPassword]',
+            forgotPasswordPanel: '#forgotPasswordForm',
+            showForgotPasswordButton: 'button[action=showForgotPassword]',
+            temporaryPasswordLoginPanel: '#temporaryPasswordLoginForm',
+            temporaryPasswordLoginButton: 'button[action=temporaryPasswordLogin]',
             loginButton: 'button[action=login]',
             loginPanel: '#loginForm',
             logoutButton: 'button[action=logout]',
@@ -32,6 +37,15 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
             },
             showCreateUserButton: {
                 tap: 'onShowCreateUserButtonTap'
+            },
+            forgotPasswordButton: {
+                tap: 'onForgotPasswordButtonTap'
+            },
+            showForgotPasswordButton: {
+                tap: 'onShowForgotPasswordButtonTap'
+            },
+            temporaryPasswordLoginButton: {
+                tap: 'onTemporaryPasswordLoginButtonTap'
             },
             loginButton: {
                 tap: 'onLoginButtonTap'
@@ -96,6 +110,55 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
         this.showCreateUserForm();
     },
 
+    onForgotPasswordButtonTap: function () {
+        var me = this,
+            form = me.getForgotPasswordButton().up('formpanel'),
+            options = form.getValues();
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask'
+        });
+
+        options.success = function(form, result) {
+            me.showProfile();
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Success: Check your email!", "A temporary password has been sent to your email.");
+            me.showTemporaryPasswordLogin();
+        };
+        options.failure = function() {
+            Ext.Viewport.unmask();
+            Ext.Msg.alert("Forgot Password Failed", "Invalid username or email address");
+        };
+        debugger;
+        me.conn.forgotPassword(options);
+    },
+
+    onShowForgotPasswordButtonTap: function () {
+        this.showForgotPasswordForm();
+    },
+
+    onTemporaryPasswordLoginButtonTap: function () {
+        var me = this,
+            form = me.getTemporaryPasswordLoginButton().up('formpanel');
+
+        Ext.Viewport.mask({
+            xtype: 'loadmask'
+        });
+        form.submit({
+            url: me.conn.getLoginUrl(),
+            success: function(form, result) {
+                me.getApplication().setLoggedInUser(Ext.create('StackMobSenchaTouchDemo.model.User', me.conn.getAuthenticatedUserData()));
+                me.showProfile();
+                Ext.Viewport.unmask();
+                me.getFriendList().getStore().load();
+            },
+            failure: function() {
+                Ext.Viewport.unmask();
+                Ext.Msg.alert("Temporary Password Login Failed", "Invalid username or password.");
+            }
+        });
+    },
+
     onLoginButtonTap: function() {
         var me = this,
             form = me.getLoginButton().up('formpanel');
@@ -111,9 +174,16 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
                 Ext.Viewport.unmask();
                 me.getFriendList().getStore().load();
             },
-            failure: function() {
+            failure: function(form, result) {
+                var parsedResult = Ext.decode(result.responseText);
                 Ext.Viewport.unmask();
-                Ext.Msg.alert("Login Failed", "Invalid username or password.");
+
+                if (parsedResult.error_description === "Temporary password reset required."){
+                    Ext.Msg.alert("Temporary Password", "You must create a new password before you can login.");
+                    me.showTemporaryPasswordLogin();
+                } else {
+                    Ext.Msg.alert("Login Failed", "Invalid username or password.");
+                }
             }
         });
     },
@@ -234,5 +304,15 @@ Ext.define("StackMobSenchaTouchDemo.controller.Account", {
     showCreateUserForm: function() {
         var me = this;
         me.getAccountMainView().setActiveItem(me.getCreateUserPanel());
+    },
+
+    showForgotPasswordForm: function() {
+        var me = this;
+        me.getAccountMainView().setActiveItem(me.getForgotPasswordPanel());
+    },
+
+    showTemporaryPasswordLogin: function() {
+        var me = this;
+        me.getAccountMainView().setActiveItem(me.getTemporaryPasswordLoginPanel());
     }
 });

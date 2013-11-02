@@ -10,3 +10,5 @@ something like [http://localhost:8000](http://localhost:8000).  Note that, in de
 example application will violate the same origin policy (since the files are hosted locally, but attempting to make
 AJAX requests to StackMob); if you are using a browser that strictly enforces this (e.g. Chrome), launch the browser
 with web security disabled.
+
+Note: To use the `forgot password` functionality, the username must be an email address.

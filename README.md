@@ -138,6 +138,17 @@ To create a new user, call `Ux.palominolabs.stackmob.data.StackMobConnector.crea
 The options should include `userData` to populate the new user entry with. All other options available for
 `Ext.data.Connection.request` are also supported.
 
+#### Forgot Password
+
+To send the user a temporary password, call `Ux.palominolabs.stackmob.data.StackMobConnector.forgotPassword(options)`.
+The options should include a `username` and your `user` schema needs to have an `email address` field (this can be the
+`username` field). StackMob will automatically send an email to the user with a temporary password. If they try to login
+with this temporary password, it will fail with an `error_description` of `Temporary password reset required.`
+
+To allow the user to create a new password using the temporary password, you can extend the same `StackMobForm`to
+create a new login that takes a username, password, and new_password. See [StackMob's Forgot Password docs](https://developer.stackmob.com/rest-api/api-docs#a-forgot_password)
+for more details.
+
 #### Reset Password
 
 To reset the logged-in user's password, call `Ux.palominolabs.stackmob.data.StackMobConnector.resetPassword(options)`.

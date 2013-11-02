@@ -5,7 +5,10 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Main", {
         'StackMobSenchaTouchDemo.view.account.CreateUser',
         'StackMobSenchaTouchDemo.view.account.Login',
         'StackMobSenchaTouchDemo.view.account.Profile',
-        'StackMobSenchaTouchDemo.view.account.ResetPassword'
+        'StackMobSenchaTouchDemo.view.account.ResetPassword',
+        'StackMobSenchaTouchDemo.view.account.ForgotPassword',
+        'StackMobSenchaTouchDemo.view.account.TemporaryPasswordLogin',
+
     ],
 
     id: 'accountMainView',
@@ -22,6 +25,10 @@ Ext.define("StackMobSenchaTouchDemo.view.account.Main", {
             xclass: 'StackMobSenchaTouchDemo.view.account.ResetPassword'
         },{
             xclass: 'StackMobSenchaTouchDemo.view.account.CreateUser'
+        },{
+            xclass: 'StackMobSenchaTouchDemo.view.account.ForgotPassword'
+        },{
+            xclass: 'StackMobSenchaTouchDemo.view.account.TemporaryPasswordLogin'
         }]
     }
 });

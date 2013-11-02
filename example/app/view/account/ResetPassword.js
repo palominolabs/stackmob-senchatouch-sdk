@@ -12,7 +12,7 @@ Ext.define("StackMobSenchaTouchDemo.view.account.ResetPassword", {
         items: [{
             xtype: 'toolbar',
             docked: 'top',
-            title: 'Login'
+            title: 'Reset Password'
         },{
             xtype: 'fieldset',
             items: [{
