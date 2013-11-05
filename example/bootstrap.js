@@ -646,12 +646,15 @@ Ext.ClassManager.addNameAlternateMappings({
   "StackMobSenchaTouchDemo.controller.Friends": [],
   "StackMobSenchaTouchDemo.model.Dessert": [],
   "StackMobSenchaTouchDemo.model.Friend": [],
+  "StackMobSenchaTouchDemo.model.User": [],
   "StackMobSenchaTouchDemo.store.Desserts": [],
   "StackMobSenchaTouchDemo.store.Friends": [],
   "StackMobSenchaTouchDemo.view.Tabs": [],
+  "StackMobSenchaTouchDemo.view.account.CreateUser": [],
   "StackMobSenchaTouchDemo.view.account.Login": [],
   "StackMobSenchaTouchDemo.view.account.Main": [],
   "StackMobSenchaTouchDemo.view.account.Profile": [],
+  "StackMobSenchaTouchDemo.view.account.ResetPassword": [],
   "StackMobSenchaTouchDemo.view.dessert.Details": [],
   "StackMobSenchaTouchDemo.view.dessert.List": [],
   "StackMobSenchaTouchDemo.view.dessert.Main": [],
@@ -662,11 +665,15 @@ Ext.ClassManager.addNameAlternateMappings({
   "StackMobSenchaTouchDemo.view.friend.Unauthorized": [],
   "Ux.palominolabs.stackmob.Loader": [],
   "Ux.palominolabs.stackmob.StackMobAjax": [],
+  "Ux.palominolabs.stackmob.app.Application": [],
   "Ux.palominolabs.stackmob.data.StackMobConnector": [],
   "Ux.palominolabs.stackmob.data.StackMobStorage": [],
+  "Ux.palominolabs.stackmob.data.Types": [],
   "Ux.palominolabs.stackmob.data.proxy.StackMob": [],
+  "Ux.palominolabs.stackmob.data.writer.StackMob": [],
   "Ux.palominolabs.stackmob.form.StackMobForm": [],
-  "Ux.palominolabs.stackmob.util.CryptoLoader": []
+  "Ux.palominolabs.stackmob.util.CryptoLoader": [],
+  "Ux.palominolabs.stackmob.util.File": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1390,6 +1397,7 @@ Ext.ClassManager.addNameAliasMappings({
   "StackMobSenchaTouchDemo.controller.Friends": [],
   "StackMobSenchaTouchDemo.model.Dessert": [],
   "StackMobSenchaTouchDemo.model.Friend": [],
+  "StackMobSenchaTouchDemo.model.User": [],
   "StackMobSenchaTouchDemo.store.Desserts": [],
   "StackMobSenchaTouchDemo.store.Friends": [],
   "StackMobSenchaTouchDemo.view.Tabs": [],
@@ -1397,7 +1405,7 @@ Ext.ClassManager.addNameAliasMappings({
   "StackMobSenchaTouchDemo.view.account.Login": [],
   "StackMobSenchaTouchDemo.view.account.Main": [],
   "StackMobSenchaTouchDemo.view.account.Profile": [],
-    "StackMobSenchaTouchDemo.view.account.ResetPassword": [],
+  "StackMobSenchaTouchDemo.view.account.ResetPassword": [],
   "StackMobSenchaTouchDemo.view.dessert.Details": [],
   "StackMobSenchaTouchDemo.view.dessert.List": [],
   "StackMobSenchaTouchDemo.view.dessert.Main": [],
@@ -1408,11 +1416,17 @@ Ext.ClassManager.addNameAliasMappings({
   "StackMobSenchaTouchDemo.view.friend.Unauthorized": [],
   "Ux.palominolabs.stackmob.Loader": [],
   "Ux.palominolabs.stackmob.StackMobAjax": [],
+  "Ux.palominolabs.stackmob.app.Application": [],
   "Ux.palominolabs.stackmob.data.StackMobConnector": [],
   "Ux.palominolabs.stackmob.data.StackMobStorage": [],
+  "Ux.palominolabs.stackmob.data.Types": [],
   "Ux.palominolabs.stackmob.data.proxy.StackMob": [
     "proxy.stackmob"
   ],
+  "Ux.palominolabs.stackmob.data.writer.StackMob": [
+    "writer.stackmob"
+  ],
   "Ux.palominolabs.stackmob.form.StackMobForm": [],
-  "Ux.palominolabs.stackmob.util.CryptoLoader": []
+  "Ux.palominolabs.stackmob.util.CryptoLoader": [],
+  "Ux.palominolabs.stackmob.util.File": []
 });

@@ -146,7 +146,7 @@ Ext.define("Ux.palominolabs.stackmob.data.StackMobConnector", {
                 headers: me.getRequiredHeaders('POST', url),
                 jsonData: {
                     old: {password: options.oldPassword},
-                    new: {password: options.newPassword}
+                    'new': {password: options.newPassword}
                 }
             };
 
