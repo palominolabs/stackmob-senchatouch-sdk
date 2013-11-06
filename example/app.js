@@ -90,10 +90,11 @@ Ext.application({
     },
 
     setLoggedInUser: function (user) {
-        this.LOGGED_IN_USER = user;
+        window.localStorage.setItem("STACKMOB_SDK_USER", user);
+
     },
 
     getLoggedInUser: function () {
-        return this.LOGGED_IN_USER;
+        return window.localStorage.getItem("STACKMOB_SDK_USER");
     }
 });
