@@ -90,11 +90,21 @@ Ext.application({
     },
 
     setLoggedInUser: function (user) {
-        window.localStorage.setItem("STACKMOB_SDK_USER", user);
-
+        this.LOGGED_IN_USER = user;
+        if (user) {
+            window.localStorage.setItem("STACKMOB_SDK_USER_DATA", Ext.encode(user.getData()));
+        } else {
+            window.localStorage.setItem("STACKMOB_SDK_USER_DATA", null);
+        }
     },
 
     getLoggedInUser: function () {
-        return window.localStorage.getItem("STACKMOB_SDK_USER");
+        if (!this.LOGGED_IN_USER){
+            var userData = Ext.decode(window.localStorage.getItem("STACKMOB_SDK_USER_DATA"));
+            if (userData) {
+                this.LOGGED_IN_USER = Ext.create('StackMobSenchaTouchDemo.model.User', {data: userData});
+            }
+        }
+        return this.LOGGED_IN_USER;
     }
 });
